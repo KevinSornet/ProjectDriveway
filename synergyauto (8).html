@@ -1,0 +1,2374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synergyauto Ventures Corporation | Nissan Dealer Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #C8102E;
+    --red-dark: #9B0C22;
+    --yellow: #F5C300;
+    --black: #0A0A0A;
+    --dark: #F7F7F7;
+    --dark2: #FFFFFF;
+    --gray: #EFEFEF;
+    --light: #1A1A1A;
+    --white: #FFFFFF;
+    --text: #111111;
+    --text-muted: #666666;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--white);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 70px;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--red);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+
+  .nav-logo-mark {
+    width: 40px; height: 40px;
+    background: var(--red);
+    clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%, 15% 50%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    color: white;
+    letter-spacing: 0.5px;
+  }
+
+  .nav-logo-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--text);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+
+  .nav-logo-text span { color: var(--white); }
+
+  .nav-links {
+    display: flex; gap: 20px; list-style: none; align-items: center;
+  }
+
+  .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.2s;
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 2px; background: var(--yellow);
+    transform: scaleX(0);
+    transition: transform 0.2s;
+    transform-origin: left;
+  }
+
+  .nav-links a:hover { color: var(--yellow); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  .nav-cta {
+    background: var(--red) !important;
+    color: white !important;
+    padding: 9px 22px !important;
+    border-radius: 2px;
+    font-weight: 700 !important;
+    transition: background 0.2s !important;
+    clip-path: none !important;
+  }
+
+  .nav-cta:hover { background: var(--red-dark) !important; color: white !important; }
+  .nav-cta::after { display: none !important; }
+  .nav-cta::before { display: none !important; }
+
+  /* ── HERO ── */
+  .hero {
+    height: 100vh; min-height: 640px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 5% 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(120deg, rgba(200,16,46,0.18) 0%, transparent 50%),
+      linear-gradient(to top, rgba(10,10,10,1) 0%, rgba(10,10,10,0.4) 60%, transparent 100%),
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 60px,
+        rgba(255,255,255,0.012) 60px,
+        rgba(255,255,255,0.012) 61px
+      ),
+      #111;
+  }
+
+  .hero-grid-overlay {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(200,16,46,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,16,46,0.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+    animation: gridShift 20s linear infinite;
+  }
+
+  @keyframes gridShift {
+    from { background-position: 0 0; }
+    to { background-position: 80px 80px; }
+  }
+
+  .hero-speed-lines {
+    position: absolute; inset: 0; overflow: hidden;
+  }
+
+  .hero-speed-lines::before {
+    content: '';
+    position: absolute; top: 30%; right: -100px;
+    width: 600px; height: 2px;
+    background: linear-gradient(to left, transparent, var(--red), transparent);
+    animation: speedLine 3s ease-in-out infinite;
+    opacity: 0.6;
+  }
+
+  .hero-speed-lines::after {
+    content: '';
+    position: absolute; top: 45%; right: -100px;
+    width: 900px; height: 1px;
+    background: linear-gradient(to left, transparent, var(--yellow), transparent);
+    animation: speedLine 3s ease-in-out 1s infinite;
+    opacity: 0.4;
+  }
+
+  @keyframes speedLine {
+    0% { transform: translateX(200px); opacity: 0; }
+    20% { opacity: 0.7; }
+    100% { transform: translateX(-1200px); opacity: 0; }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 16px;
+    opacity: 0;
+    transform: translateX(-30px);
+    animation: slideIn 0.8s 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(56px, 9vw, 130px);
+    line-height: 0.88;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    opacity: 0;
+    transform: translateX(-40px);
+    animation: slideIn 0.8s 0.5s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--red);
+    -webkit-text-stroke: 0px;
+  }
+
+  .hero-title .outline {
+    -webkit-text-stroke: 2px rgba(255,255,255,0.3);
+    color: transparent;
+  }
+
+  .hero-sub {
+    margin-top: 24px;
+    font-size: 16px;
+    color: rgba(255,255,255,0.6);
+    max-width: 480px;
+    line-height: 1.6;
+    opacity: 0;
+    transform: translateX(-30px);
+    animation: slideIn 0.8s 0.7s forwards;
+  }
+
+  .hero-actions {
+    display: flex; gap: 16px; margin-top: 40px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+  }
+
+  @keyframes slideIn {
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .btn-primary {
+    background: var(--red);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 14px 36px;
+    text-decoration: none;
+    clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+    transition: background 0.2s, color 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--yellow); color: var(--black); }
+
+  .btn-ghost {
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 12px 32px;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-block;
+  }
+
+  .btn-ghost:hover { border-color: var(--yellow); color: var(--yellow); }
+
+  .hero-stat-strip {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    display: flex;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    animation: fadeUp 0.8s 1.1s forwards;
+  }
+
+  .hero-stat {
+    flex: 1;
+    padding: 18px 5%;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; gap: 16px;
+  }
+
+  .hero-stat:last-child { border-right: none; }
+
+  .hero-stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 36px;
+    color: var(--red);
+    line-height: 1;
+  }
+
+  .hero-stat-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+
+  /* ── SECTION COMMON ── */
+  section { padding: 100px 5%; }
+
+  .section-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 5vw, 64px);
+    text-transform: uppercase;
+    line-height: 0.92;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+
+  .section-title .accent { color: var(--red); }
+
+  #dealerships { background: var(--white); }
+
+  .dealerships-intro {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 60px; gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .dealerships-intro p {
+    max-width: 380px;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .dealer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px;
+  }
+
+  .dealer-card {
+    background: var(--gray);
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+    transition: background 0.3s;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .dealer-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--red);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s;
+  }
+
+  .dealer-card:hover { background: #E8E8E8; }
+  .dealer-card:hover::before { transform: scaleY(1); }
+
+  .dealer-card-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 64px;
+    color: rgba(0,0,0,0.04);
+    position: absolute;
+    top: 10px; right: 20px;
+    line-height: 1;
+    transition: color 0.3s;
+  }
+
+  .dealer-card:hover .dealer-card-num { color: rgba(200,16,46,0.07); }
+
+  .dealer-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 10px;
+  }
+
+  .dealer-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .dealer-address {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .dealer-link {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--red);
+    text-decoration: none;
+    transition: color 0.2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .dealer-link:hover { color: var(--red-dark); }
+  .dealer-link::after { content: '→'; transition: transform 0.2s; }
+  .dealer-link:hover::after { transform: translateX(4px); }
+
+  /* ── LEADS / INQUIRY ── */
+  #inquiry { background: var(--gray); position: relative; overflow: hidden; }
+
+  #inquiry::before {
+    content: '';
+    position: absolute; top: -100px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(200,16,46,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .inquiry-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .inquiry-form-wrap {
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.08);
+    padding: 48px;
+    position: relative;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+  }
+
+  .inquiry-form-wrap::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(to right, var(--red), var(--yellow));
+  }
+
+  .form-row { margin-bottom: 20px; }
+
+  .form-row label {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .form-row input,
+  .form-row select,
+  .form-row textarea {
+    width: 100%;
+    background: var(--gray);
+    border: 1px solid rgba(0,0,0,0.1);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    padding: 12px 16px;
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+
+  .form-row input:focus,
+  .form-row select:focus,
+  .form-row textarea:focus {
+    border-color: var(--red);
+    background: white;
+  }
+
+  .form-row select option { background: white; color: var(--text); }
+  .form-row textarea { resize: vertical; min-height: 100px; }
+
+  .form-two-col {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+
+  .inquiry-left h2 { margin-bottom: 24px; }
+
+  .inquiry-left p {
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  .inquiry-perks {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+
+  .inquiry-perks li {
+    display: flex; align-items: flex-start; gap: 14px;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .perk-icon {
+    width: 32px; height: 32px;
+    background: rgba(200,16,46,0.08);
+    border: 1px solid rgba(200,16,46,0.2);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+
+  /* ── SERVICE ── */
+  #service { background: var(--white); }
+
+  .service-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .service-cards {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+
+  .service-card {
+    background: var(--gray);
+    padding: 28px 32px;
+    display: flex; align-items: center; gap: 24px;
+    cursor: default;
+    transition: background 0.2s, padding-left 0.2s;
+    border-left: 3px solid transparent;
+    border: 1px solid rgba(0,0,0,0.05);
+    margin-bottom: 2px;
+  }
+
+  .service-card:hover {
+    background: #E8E8E8;
+    padding-left: 36px;
+    border-left-color: var(--red);
+  }
+
+  .service-icon {
+    font-size: 28px;
+    width: 48px;
+    flex-shrink: 0;
+    text-align: center;
+  }
+
+  .service-card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    color: var(--text);
+  }
+
+  .service-card-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* ── CAREERS ── */
+  #careers { background: var(--black); overflow: hidden; position: relative; }
+
+  .careers-banner {
+    background: var(--red);
+    padding: 80px 5%;
+    position: relative;
+    overflow: hidden;
+    margin: 0 -5%;
+  }
+
+  .careers-banner::before {
+    content: 'JOIN US';
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 200px;
+    color: rgba(255,255,255,0.06);
+    position: absolute;
+    top: 50%; right: 5%;
+    transform: translateY(-50%);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .careers-inner {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 60px; flex-wrap: wrap;
+  }
+
+  .careers-inner h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 5vw, 60px);
+    text-transform: uppercase;
+    line-height: 0.92;
+  }
+
+  .careers-inner p {
+    max-width: 400px;
+    font-size: 15px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.6;
+    margin-top: 16px;
+  }
+
+  .careers-roles {
+    display: flex; flex-direction: column; gap: 2px;
+    min-width: 320px;
+  }
+
+  .role-item {
+    background: rgba(0,0,0,0.2);
+    padding: 20px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    transition: background 0.2s;
+  }
+
+  .role-item:hover { background: rgba(0,0,0,0.35); }
+
+  .role-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .role-dept {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    margin-top: 2px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .role-arrow {
+    color: rgba(255,255,255,0.4);
+    font-size: 18px;
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .role-item:hover .role-arrow { transform: translateX(4px); color: var(--yellow); }
+
+  footer {
+    background: #111111;
+    border-top: 2px solid var(--red);
+    padding: 60px 5% 32px;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-brand p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.7;
+    margin-top: 16px;
+    max-width: 260px;
+  }
+
+  .footer-col-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 16px;
+  }
+
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+  .footer-col ul li a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .footer-col ul li a:hover { color: var(--white); }
+  .footer-col ul li a::before { content: '—'; color: var(--red); font-size: 10px; }
+
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 28px;
+    flex-wrap: wrap; gap: 12px;
+  }
+
+  .footer-bottom p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 1px;
+  }
+
+  .nissan-badge {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+  }
+
+  .nissan-badge span {
+    background: rgba(255,255,255,0.08);
+    padding: 4px 10px;
+    color: rgba(255,255,255,0.35);
+  }
+
+  /* ── TICKER ── */
+  .ticker-wrap {
+    background: var(--red);
+    overflow: hidden;
+    padding: 12px 0;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-flex;
+    animation: ticker 30s linear infinite;
+  }
+
+  .ticker-item {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 0 40px;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .ticker-sep {
+    color: rgba(255,255,255,0.4);
+    padding: 0 8px;
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── HAMBURGER ── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px; height: 40px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+    z-index: 200;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 100%; height: 2px;
+    background: var(--text);
+    transition: transform 0.3s, opacity 0.3s, width 0.3s;
+    transform-origin: center;
+  }
+
+  .hamburger.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .hamburger.open span:nth-child(2) {
+    opacity: 0; width: 0;
+  }
+  .hamburger.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 70px; left: 0; right: 0;
+    background: rgba(255,255,255,0.99);
+    backdrop-filter: blur(16px);
+    border-bottom: 2px solid var(--red);
+    padding: 0;
+    z-index: 99;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+
+  .mobile-menu.open {
+    max-height: 500px;
+  }
+
+  .mobile-menu ul {
+    list-style: none;
+    padding: 16px 0 24px;
+  }
+
+  .mobile-menu ul li a {
+    display: block;
+    padding: 14px 5%;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s, padding-left 0.2s;
+  }
+
+  .mobile-menu ul li a:hover,
+  .mobile-menu ul li a:active {
+    color: var(--red);
+    border-left-color: var(--red);
+    padding-left: calc(5% + 12px);
+  }
+
+  .mobile-menu .mobile-cta {
+    margin: 8px 5% 0;
+    display: block;
+    text-align: center;
+    background: var(--red);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 14px 20px;
+    text-decoration: none;
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    transition: background 0.2s;
+  }
+
+  .mobile-menu .mobile-cta:hover { background: var(--yellow); color: var(--black); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1100px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .mobile-menu { display: block; }
+    .inquiry-layout, .service-layout { grid-template-columns: 1fr; gap: 48px; }
+    .form-two-col { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .hero-stat-strip { display: none; }
+    .careers-roles { min-width: unset; width: 100%; }
+  }
+
+  @media (max-width: 560px) {
+    .footer-top { grid-template-columns: 1fr; }
+  }
+
+  /* ── AWARDS ── */
+  #awards {
+    background: var(--red);
+    padding: 80px 5%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #awards::before {
+    content: '★';
+    font-size: 320px;
+    color: rgba(255,255,255,0.04);
+    position: absolute;
+    right: 3%;
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: 1;
+    pointer-events: none;
+    font-family: sans-serif;
+  }
+
+  .awards-header {
+    margin-bottom: 48px;
+  }
+
+  .awards-header .section-tag { color: var(--yellow); }
+  .awards-header .section-title { color: white; }
+  .awards-header .section-title .accent { color: var(--yellow); }
+
+  .awards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px;
+  }
+
+  .award-card {
+    background: rgba(0,0,0,0.15);
+    padding: 32px 28px;
+    border-top: 3px solid var(--yellow);
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .award-card:hover { background: rgba(0,0,0,0.25); }
+
+  .award-year {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 52px;
+    color: rgba(255,255,255,0.12);
+    position: absolute;
+    top: 10px; right: 16px;
+    line-height: 1;
+  }
+
+  .award-trophy {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .award-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: white;
+    margin-bottom: 6px;
+    line-height: 1.1;
+  }
+
+  .award-winner {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--yellow);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .award-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.5;
+  }
+
+  /* ── VIRTUAL SHOWROOM ── */
+  #showroom {
+    background: #111111;
+    padding: 100px 0 0;
+    overflow: hidden;
+  }
+
+  .showroom-header {
+    padding: 0 5% 60px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    flex-wrap: wrap; gap: 24px;
+  }
+
+  .showroom-header .section-tag { color: var(--yellow); }
+  .showroom-header .section-title { color: white; }
+  .showroom-header .section-title .accent { color: var(--red); }
+
+  .showroom-header p {
+    max-width: 360px;
+    color: rgba(255,255,255,0.5);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* Model selector tabs */
+  .model-tabs {
+    display: flex; gap: 2px;
+    padding: 0 5%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .model-tabs::-webkit-scrollbar { display: none; }
+
+  .model-tab {
+    flex-shrink: 0;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.55);
+    border: 1px solid rgba(255,255,255,0.12);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+    position: relative;
+  }
+
+  .model-tab.active {
+    background: var(--red);
+    color: white;
+    border-color: var(--red);
+  }
+
+  .model-tab:hover:not(.active) {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border-color: rgba(255,255,255,0.25);
+  }
+
+  /* Main showroom stage */
+  .showroom-stage {
+    margin-top: 2px;
+    position: relative;
+    background: linear-gradient(160deg, #0f0f0f 0%, #1a0a0a 50%, #0a0a0f 100%);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .showroom-stage-inner {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    min-height: 520px;
+  }
+
+  /* Left: image viewer */
+  .sv-viewer {
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 60%, rgba(200,16,46,0.07) 0%, transparent 70%);
+  }
+
+  .sv-floor {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 120px;
+    background: linear-gradient(to top, rgba(200,16,46,0.04), transparent);
+    border-top: 1px solid rgba(200,16,46,0.1);
+  }
+
+  .sv-floor::before {
+    content: '';
+    position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(200,16,46,0.3), transparent);
+  }
+
+  .sv-image-wrap {
+    position: relative;
+    width: 100%; height: 100%;
+    min-height: 520px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .sv-image {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity 0.5s;
+    padding: 40px;
+  }
+
+  .sv-image.active { opacity: 1; }
+
+  /* Placeholder car silhouettes using CSS art */
+  .car-placeholder {
+    width: 100%;
+    max-width: 560px;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0;
+    position: relative;
+  }
+
+  .car-svg {
+    width: 100%;
+    filter: drop-shadow(0 20px 60px rgba(200,16,46,0.25));
+    transition: filter 0.4s;
+  }
+
+  .car-svg:hover {
+    filter: drop-shadow(0 24px 80px rgba(200,16,46,0.4));
+  }
+
+  /* View type badge */
+  .sv-view-badge {
+    position: absolute; top: 20px; left: 24px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--yellow);
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(245,195,0,0.2);
+    padding: 6px 14px;
+    backdrop-filter: blur(8px);
+  }
+
+  /* Thumbnail nav */
+  .sv-thumbs {
+    position: absolute; bottom: 24px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 8px;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+    padding: 8px 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .sv-thumb {
+    width: 48px; height: 32px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sv-thumb.active {
+    border-color: var(--red);
+    background: rgba(200,16,46,0.15);
+    color: white;
+  }
+
+  .sv-thumb:hover:not(.active) {
+    border-color: rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.08);
+  }
+
+  /* Arrow nav */
+  .sv-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 44px; height: 44px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+    backdrop-filter: blur(8px);
+    z-index: 2;
+  }
+
+  .sv-arrow:hover { background: var(--red); border-color: var(--red); }
+  .sv-arrow-left { left: 16px; }
+  .sv-arrow-right { right: 16px; }
+
+  /* Right: info panel */
+  .sv-panel {
+    background: rgba(0,0,0,0.4);
+    border-left: 1px solid rgba(255,255,255,0.06);
+    padding: 36px 28px;
+    display: flex; flex-direction: column;
+    backdrop-filter: blur(4px);
+  }
+
+  .sv-model-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .sv-model-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 40px;
+    text-transform: uppercase;
+    line-height: 0.9;
+    margin-bottom: 20px;
+  }
+
+  .sv-view-toggle {
+    display: flex; gap: 2px; margin-bottom: 28px;
+  }
+
+  .sv-view-btn {
+    flex: 1;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 9px 4px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+
+  .sv-view-btn.active {
+    background: rgba(200,16,46,0.2);
+    border-color: var(--red);
+    color: white;
+  }
+
+  .sv-view-btn:hover:not(.active) {
+    color: white; background: rgba(255,255,255,0.06);
+  }
+
+  /* Color picker */
+  .sv-section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 12px;
+  }
+
+  .sv-colors {
+    display: flex; gap: 10px; margin-bottom: 28px; flex-wrap: wrap;
+  }
+
+  .sv-color-swatch {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.2s, border-color 0.2s;
+    position: relative;
+  }
+
+  .sv-color-swatch:hover { transform: scale(1.15); }
+  .sv-color-swatch.active { border-color: white; transform: scale(1.15); }
+
+  .sv-color-name {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 28px;
+    margin-top: -20px;
+    font-style: italic;
+    min-height: 16px;
+  }
+
+  /* Specs */
+  .sv-specs {
+    display: flex; flex-direction: column; gap: 1px;
+    flex: 1;
+  }
+
+  .sv-spec-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .sv-spec-key {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .sv-spec-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: white;
+    letter-spacing: 0.5px;
+  }
+
+  .sv-cta {
+    margin-top: 24px;
+    display: block;
+    text-align: center;
+    background: var(--red);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 14px;
+    text-decoration: none;
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    transition: background 0.2s;
+    border: none; cursor: pointer; width: 100%;
+  }
+
+  .sv-cta:hover { background: var(--yellow); color: var(--black); }
+
+  /* Interior grid */
+  .sv-interior-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    padding: 20px 40px 40px;
+    display: none;
+  }
+
+  .sv-interior-grid.active { display: grid; }
+
+  .sv-int-card {
+    background: var(--gray);
+    aspect-ratio: 4/3;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sv-int-card:hover { background: #2e2e2e; }
+
+  .sv-int-card .int-icon { font-size: 32px; }
+
+  .sv-int-card .int-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .sv-int-card:hover .int-label { color: white; }
+
+  .sv-int-card .int-overlay {
+    position: absolute; inset: 0;
+    background: rgba(200,16,46,0.0);
+    border: 2px solid transparent;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .sv-int-card:hover .int-overlay {
+    background: rgba(200,16,46,0.05);
+    border-color: rgba(200,16,46,0.2);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .showroom-stage-inner {
+      grid-template-columns: 1fr;
+    }
+    .sv-panel {
+      border-left: none;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .sv-interior-grid { grid-template-columns: repeat(2,1fr); padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-mark">SAV</div>
+    <div class="nav-logo-text">Synergy<span>auto</span><br>Ventures Corp.</div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#dealerships">Dealerships</a></li>
+    <li><a href="#awards">Awards</a></li>
+    <li><a href="#showroom">Showroom</a></li>
+    <li><a href="#inquiry">Find a Car</a></li>
+    <li><a href="#service">Service</a></li>
+    <li><a href="#careers">Careers</a></li>
+    <li><a href="#inquiry" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#dealerships" class="mobile-nav-link">Dealerships</a></li>
+    <li><a href="#awards" class="mobile-nav-link">Awards</a></li>
+    <li><a href="#showroom" class="mobile-nav-link">Showroom</a></li>
+    <li><a href="#inquiry" class="mobile-nav-link">Find a Car</a></li>
+    <li><a href="#service" class="mobile-nav-link">Service</a></li>
+    <li><a href="#careers" class="mobile-nav-link">Careers</a></li>
+  </ul>
+  <a href="#inquiry" class="mobile-cta mobile-nav-link">Get a Quote</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-overlay"></div>
+  <div class="hero-speed-lines"></div>
+
+  <p class="hero-eyebrow">Authorized Nissan Dealer Group · South NCR & South Luzon</p>
+  <h1 class="hero-title">
+    <span style="-webkit-text-stroke:0;color:white;">Nissan</span><br>
+    <em>Always</em><br>
+    <span class="outline">Daring</span>
+  </h1>
+  <p class="hero-sub">Your trusted Nissan partner across South Metro Manila and Southern Luzon — multiple dealerships, one commitment to excellence.</p>
+  <div class="hero-actions">
+    <a href="#inquiry" class="btn-primary">Browse Vehicles</a>
+    <a href="#service" class="btn-ghost">Book a Service</a>
+  </div>
+
+  <div class="hero-stat-strip">
+    <div class="hero-stat">
+      <div class="hero-stat-num">6+</div>
+      <div class="hero-stat-label">Nissan<br>Dealerships</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">3+</div>
+      <div class="hero-stat-label">Years in<br>Operation</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">50K+</div>
+      <div class="hero-stat-label">Vehicles<br>Sold</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">100%</div>
+      <div class="hero-stat-label">Nissan<br>Authorized</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span class="ticker-item">Nissan · Always Daring <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Nissan Navara <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Nissan Terra <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Nissan Almera <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Nissan Patrol Royale <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Nissan Kicks <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">South NCR <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">South Luzon <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Nissan · Always Daring <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Nissan Navara <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Nissan Terra <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Nissan Almera <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Nissan Patrol Royale <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Nissan Kicks <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">South NCR <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">South Luzon <span class="ticker-sep">✦</span></span>
+  </div>
+</div>
+
+<!-- VIRTUAL SHOWROOM -->
+<section id="showroom">
+  <div class="showroom-header">
+    <div>
+      <p class="section-tag">Virtual Showroom</p>
+      <h2 class="section-title">Explore Every<br><span class="accent">Angle.</span></h2>
+    </div>
+    <p>Browse exterior angles, peek inside the cabin, and switch color variants — all before you visit a dealership.</p>
+  </div>
+
+  <!-- Model tabs -->
+  <div class="model-tabs" id="modelTabs">
+    <button class="model-tab active" data-model="navara">Navara</button>
+    <button class="model-tab" data-model="terra">Terra</button>
+    <button class="model-tab" data-model="almera">Almera</button>
+    <button class="model-tab" data-model="kicks">Kicks</button>
+    <button class="model-tab" data-model="patrol">Patrol Royale</button>
+  </div>
+
+  <!-- Stage -->
+  <div class="showroom-stage">
+    <div class="showroom-stage-inner" id="stageInner">
+
+      <!-- Image viewer -->
+      <div class="sv-viewer" id="svViewer">
+        <div class="sv-floor"></div>
+
+        <div class="sv-image-wrap" id="svImageWrap">
+          <!-- Images injected by JS -->
+        </div>
+
+        <div class="sv-view-badge" id="svViewBadge">Exterior · Front</div>
+
+        <button class="sv-arrow sv-arrow-left" id="svPrev">&#8592;</button>
+        <button class="sv-arrow sv-arrow-right" id="svNext">&#8594;</button>
+
+        <div class="sv-thumbs" id="svThumbs"></div>
+      </div>
+
+      <!-- Info panel -->
+      <div class="sv-panel">
+        <div class="sv-model-label">Nissan</div>
+        <div class="sv-model-name" id="svModelName">Navara</div>
+
+        <div class="sv-view-toggle">
+          <button class="sv-view-btn active" data-view="exterior">Exterior</button>
+          <button class="sv-view-btn" data-view="interior">Interior</button>
+        </div>
+
+        <div class="sv-section-label">Color</div>
+        <div class="sv-colors" id="svColors"></div>
+        <div class="sv-color-name" id="svColorName">Brilliant Silver</div>
+
+        <div class="sv-section-label">Key Specs</div>
+        <div class="sv-specs" id="svSpecs"></div>
+
+        <a href="#inquiry" class="sv-cta">Inquire About This Model</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEALERSHIPS -->
+<section id="dealerships">
+  <div class="dealerships-intro">
+    <div>
+      <p class="section-tag">Our Locations</p>
+      <h2 class="section-title">Find a <span class="accent">Dealership</span><br>Near You</h2>
+    </div>
+    <p>With dealerships spanning South Metro Manila and Southern Luzon, a Synergyauto Nissan dealer is always within reach — ready to serve you with sales, parts, and after-sales support.</p>
+  </div>
+
+  <div class="dealer-grid">
+    <div class="dealer-card">
+      <div class="dealer-card-num">01</div>
+      <p class="dealer-tag">South NCR · Award Winner</p>
+      <h3 class="dealer-name">Nissan Alabang</h3>
+      <p class="dealer-address">Alabang, Muntinlupa City, Metro Manila</p>
+      <a href="#" class="dealer-link">Get Directions</a>
+    </div>
+    <div class="dealer-card">
+      <div class="dealer-card-num">02</div>
+      <p class="dealer-tag">South NCR</p>
+      <h3 class="dealer-name">Nissan Sucat</h3>
+      <p class="dealer-address">Dr. A. Santos Ave., Sucat, Parañaque City, Metro Manila</p>
+      <a href="#" class="dealer-link">Get Directions</a>
+    </div>
+    <div class="dealer-card">
+      <div class="dealer-card-num">03</div>
+      <p class="dealer-tag">South Luzon · Award Winner</p>
+      <h3 class="dealer-name">Nissan Dasmariñas</h3>
+      <p class="dealer-address">Emilio Aguinaldo Highway, Dasmariñas City, Cavite</p>
+      <a href="#" class="dealer-link">Get Directions</a>
+    </div>
+    <div class="dealer-card">
+      <div class="dealer-card-num">04</div>
+      <p class="dealer-tag">South Luzon</p>
+      <h3 class="dealer-name">Nissan Carmona</h3>
+      <p class="dealer-address">Governor's Drive, Carmona, Cavite</p>
+      <a href="#" class="dealer-link">Get Directions</a>
+    </div>
+    <div class="dealer-card">
+      <div class="dealer-card-num">05</div>
+      <p class="dealer-tag">South Luzon</p>
+      <h3 class="dealer-name">Nissan Calamba</h3>
+      <p class="dealer-address">National Highway, Calamba City, Laguna</p>
+      <a href="#" class="dealer-link">Get Directions</a>
+    </div>
+    <div class="dealer-card">
+      <div class="dealer-card-num">06</div>
+      <p class="dealer-tag">South Luzon</p>
+      <h3 class="dealer-name">Nissan Sta. Rosa</h3>
+      <p class="dealer-address">Sta. Rosa–Tagaytay Road, Sta. Rosa City, Laguna</p>
+      <a href="#" class="dealer-link">Get Directions</a>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section id="awards">
+  <div class="awards-header">
+    <p class="section-tag">Recognition</p>
+    <h2 class="section-title">Award-<span class="accent">Winning</span><br>Excellence</h2>
+  </div>
+  <div class="awards-grid">
+    <div class="award-card">
+      <div class="award-year">25</div>
+      <div class="award-trophy">🏆</div>
+      <div class="award-title">Dealer of the Year</div>
+      <div class="award-winner">Nissan Alabang</div>
+      <div class="award-desc">Named the overall Dealer of the Year for 2025 — the highest recognition awarded to a Nissan dealer in the Philippines.</div>
+    </div>
+    <div class="award-card">
+      <div class="award-year">25</div>
+      <div class="award-trophy">🌐</div>
+      <div class="award-title">Nissan Global Award</div>
+      <div class="award-winner">Nissan Alabang</div>
+      <div class="award-desc">Recipient of the prestigious Nissan Global Award — a recognition of world-class dealership performance and customer excellence.</div>
+    </div>
+    <div class="award-card">
+      <div class="award-year">25</div>
+      <div class="award-trophy">🥇</div>
+      <div class="award-title">Best Dealer · NCR</div>
+      <div class="award-winner">Nissan Alabang</div>
+      <div class="award-desc">Category winner for the NCR region in the 2025 Dealer of the Year awards — top performer in Metro Manila.</div>
+    </div>
+    <div class="award-card">
+      <div class="award-year">25</div>
+      <div class="award-trophy">🥇</div>
+      <div class="award-title">Best Dealer · Provincial</div>
+      <div class="award-winner">Nissan Dasmariñas</div>
+      <div class="award-desc">Category winner for the Provincial division — recognized for outstanding sales, service, and customer satisfaction outside Metro Manila.</div>
+    </div>
+  </div>
+</section>
+
+<!-- INQUIRY / LEADS -->
+<section id="inquiry">
+  <div class="inquiry-layout">
+    <div class="inquiry-left">
+      <p class="section-tag">Vehicle Inquiry</p>
+      <h2 class="section-title">Get the Right<br><span class="accent">Nissan</span><br>for You</h2>
+      <p>Tell us what you're looking for and one of our trained sales consultants will get in touch within 24 hours — no pressure, just expert guidance.</p>
+      <ul class="inquiry-perks">
+        <li>
+          <div class="perk-icon">🚗</div>
+          <div>Test drive available at any of our 6 dealership locations across South NCR and South Luzon.</div>
+        </li>
+        <li>
+          <div class="perk-icon">💰</div>
+          <div>Flexible financing options with competitive rates through partner banks and in-house financing.</div>
+        </li>
+        <li>
+          <div class="perk-icon">📋</div>
+          <div>Trade-in accepted. Get a fair assessment for your current vehicle.</div>
+        </li>
+        <li>
+          <div class="perk-icon">🛡️</div>
+          <div>Full Nissan warranty and after-sales support at all Synergyauto dealerships.</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="inquiry-form-wrap">
+      <div class="form-two-col">
+        <div class="form-row">
+          <label>First Name</label>
+          <input type="text" placeholder="Juan">
+        </div>
+        <div class="form-row">
+          <label>Last Name</label>
+          <input type="text" placeholder="dela Cruz">
+        </div>
+      </div>
+      <div class="form-row">
+        <label>Mobile Number</label>
+        <input type="tel" placeholder="+63 9XX XXX XXXX">
+      </div>
+      <div class="form-row">
+        <label>Email Address</label>
+        <input type="email" placeholder="juan@email.com">
+      </div>
+      <div class="form-row">
+        <label>Vehicle of Interest</label>
+        <select>
+          <option value="">Select a model...</option>
+          <option>Nissan Navara</option>
+          <option>Nissan Terra</option>
+          <option>Nissan Almera</option>
+          <option>Nissan Kicks</option>
+          <option>Nissan Patrol Royale</option>
+          <option>Open to Suggestions</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Preferred Dealership</label>
+        <select>
+          <option value="">Nearest branch...</option>
+          <option>Nissan Alabang</option>
+          <option>Nissan Sucat</option>
+          <option>Nissan Dasmariñas</option>
+          <option>Nissan Carmona</option>
+          <option>Nissan Calamba</option>
+          <option>Nissan Sta. Rosa</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Message (Optional)</label>
+        <textarea placeholder="Any specific requirements, color preferences, or questions?"></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%; text-align:center; border:none; cursor:pointer;">Submit Inquiry</button>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICE -->
+<section id="service">
+  <div class="service-layout">
+    <div>
+      <p class="section-tag">After-Sales</p>
+      <h2 class="section-title">Keep Your<br><span class="accent">Nissan</span><br>Peak Ready</h2>
+      <p style="color:rgba(255,255,255,0.5);font-size:15px;line-height:1.7;margin-top:24px;margin-bottom:40px;">
+        Our Nissan-trained technicians and genuine parts keep your vehicle running at its best. Book a service appointment at any of our dealerships — quick, professional, and guaranteed.
+      </p>
+      <a href="#" class="btn-primary">Book a Service Appointment</a>
+    </div>
+    <div class="service-cards">
+      <div class="service-card">
+        <div class="service-icon">🔧</div>
+        <div>
+          <div class="service-card-title">Preventive Maintenance</div>
+          <div class="service-card-desc">Oil changes, filter replacements, fluid checks, and full PMS packages.</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔩</div>
+        <div>
+          <div class="service-card-title">Genuine Parts & Accessories</div>
+          <div class="service-card-desc">Only OEM Nissan parts for guaranteed fit, performance, and warranty compliance.</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🏎️</div>
+        <div>
+          <div class="service-card-title">Diagnostic & Repair</div>
+          <div class="service-card-desc">Advanced computer diagnostics and expert repair for all Nissan models.</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🎨</div>
+        <div>
+          <div class="service-card-title">Body & Paint</div>
+          <div class="service-card-desc">Factory-matched paint and structural bodywork restoration services.</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📞</div>
+        <div>
+          <div class="service-card-title">24/7 Roadside Assistance</div>
+          <div class="service-card-desc">Stranded? Our team is on call around the clock across our service areas.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAREERS -->
+<section id="careers" style="padding: 100px 0;">
+  <div class="careers-banner">
+    <div class="careers-inner" style="padding: 0 5%;">
+      <div>
+        <h2>Be Part of<br>the <em style="font-style:italic;">Team.</em></h2>
+        <p>We're always looking for driven, passionate people to join our growing automotive group. From sales to service, leadership to logistics — there's a seat for you at Synergyauto.</p>
+        <a href="#" class="btn-ghost" style="margin-top:32px;display:inline-block;">View All Openings</a>
+      </div>
+      <div class="careers-roles">
+        <div class="role-item">
+          <div>
+            <div class="role-name">Sales Consultant</div>
+            <div class="role-dept">Sales · Multiple Locations</div>
+          </div>
+          <span class="role-arrow">→</span>
+        </div>
+        <div class="role-item">
+          <div>
+            <div class="role-name">Service Advisor</div>
+            <div class="role-dept">After-Sales · Multiple Locations</div>
+          </div>
+          <span class="role-arrow">→</span>
+        </div>
+        <div class="role-item">
+          <div>
+            <div class="role-name">Automotive Technician</div>
+            <div class="role-dept">Service · Multiple Locations</div>
+          </div>
+          <span class="role-arrow">→</span>
+        </div>
+        <div class="role-item">
+          <div>
+            <div class="role-name">Finance & Insurance Officer</div>
+            <div class="role-dept">Finance · Head Office</div>
+          </div>
+          <span class="role-arrow">→</span>
+        </div>
+        <div class="role-item">
+          <div>
+            <div class="role-name">Branch Manager</div>
+            <div class="role-dept">Management · Laguna / Batangas</div>
+          </div>
+          <span class="role-arrow">→</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <div class="nav-logo-mark">SAV</div>
+        <div class="nav-logo-text">Synergy<span style="color:var(--white)">auto</span><br>Ventures Corp.</div>
+      </div>
+      <p>Authorized Nissan Dealer Group operating across South NCR and Southern Luzon. Committed to delivering world-class automotive retail and service experiences.</p>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-title">Dealerships</p>
+      <ul>
+        <li><a href="#">Nissan Alabang</a></li>
+        <li><a href="#">Nissan Sucat</a></li>
+        <li><a href="#">Nissan Dasmariñas</a></li>
+        <li><a href="#">Nissan Carmona</a></li>
+        <li><a href="#">Nissan Calamba</a></li>
+        <li><a href="#">Nissan Sta. Rosa</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-title">Services</p>
+      <ul>
+        <li><a href="#">New Vehicles</a></li>
+        <li><a href="#">Certified Pre-Owned</a></li>
+        <li><a href="#">Book a Service</a></li>
+        <li><a href="#">Genuine Parts</a></li>
+        <li><a href="#">Financing</a></li>
+        <li><a href="#">Trade-In</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-title">Company</p>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Synergyauto Ventures Corporation. All Rights Reserved.</p>
+    <div class="nissan-badge">Authorized Dealer <span>NISSAN PHILIPPINES</span></div>
+  </div>
+</footer>
+
+<script>
+  // ── HAMBURGER ──
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  // ── VIRTUAL SHOWROOM DATA ──
+  const MODELS = {
+    navara: {
+      name: 'Navara',
+      colors: [
+        { name: 'Brilliant Silver', hex: '#C0C0C0' },
+        { name: 'Slate Grey', hex: '#708090' },
+        { name: 'Galaxy Black', hex: '#1a1a1a' },
+        { name: 'Burning Red', hex: '#C8102E' },
+        { name: 'Ivory Pearl', hex: '#F5F0E8' },
+      ],
+      specs: [
+        { key: 'Engine', val: '2.5L DOHC Turbo Diesel' },
+        { key: 'Power', val: '190 hp' },
+        { key: 'Torque', val: '450 Nm' },
+        { key: 'Transmission', val: '7-Speed Auto' },
+        { key: 'Drive', val: '4x4 / 4x2' },
+        { key: 'Payload', val: '1,000 kg' },
+      ],
+      exterior: [
+        { label: 'Front', icon: '🚗', angle: 'Front View' },
+        { label: 'Side', icon: '🚘', angle: 'Side Profile' },
+        { label: 'Rear', icon: '🚙', angle: 'Rear View' },
+        { label: 'Detail', icon: '🔍', angle: 'Detail Shot' },
+      ],
+      interior: [
+        { label: 'Dashboard', icon: '🎛️' },
+        { label: 'Seats', icon: '💺' },
+        { label: 'Console', icon: '🕹️' },
+        { label: 'Infotainment', icon: '📱' },
+        { label: 'Cargo Bed', icon: '📦' },
+        { label: 'Wheels', icon: '⚙️' },
+      ]
+    },
+    terra: {
+      name: 'Terra',
+      colors: [
+        { name: 'Gun Metallic', hex: '#5A5F63' },
+        { name: 'Diamond White', hex: '#F8F8F8' },
+        { name: 'Deep Blue Pearl', hex: '#1B3A6E' },
+        { name: 'Midnight Black', hex: '#111111' },
+        { name: 'Sandstone', hex: '#C2A882' },
+      ],
+      specs: [
+        { key: 'Engine', val: '2.5L DOHC Turbo Diesel' },
+        { key: 'Power', val: '187 hp' },
+        { key: 'Torque', val: '450 Nm' },
+        { key: 'Transmission', val: '7-Speed Auto' },
+        { key: 'Seating', val: '7 Passengers' },
+        { key: 'Drive', val: '4x4 / 4x2' },
+      ],
+      exterior: [
+        { label: 'Front', icon: '🚗', angle: 'Front View' },
+        { label: 'Side', icon: '🚘', angle: 'Side Profile' },
+        { label: 'Rear', icon: '🚙', angle: 'Rear View' },
+        { label: 'Detail', icon: '🔍', angle: 'Detail Shot' },
+      ],
+      interior: [
+        { label: 'Dashboard', icon: '🎛️' },
+        { label: 'Front Seats', icon: '💺' },
+        { label: '3rd Row', icon: '🪑' },
+        { label: 'Infotainment', icon: '📱' },
+        { label: 'Cargo Area', icon: '📦' },
+        { label: 'Sunroof', icon: '🌤️' },
+      ]
+    },
+    almera: {
+      name: 'Almera',
+      colors: [
+        { name: 'Brilliant Silver', hex: '#C0C0C0' },
+        { name: 'Super Black', hex: '#111111' },
+        { name: 'Blade Silver', hex: '#A8B0B8' },
+        { name: 'Fresh Mint', hex: '#8DC8B4' },
+        { name: 'Storm White', hex: '#F5F5F5' },
+      ],
+      specs: [
+        { key: 'Engine', val: '1.0L Turbo Petrol' },
+        { key: 'Power', val: '100 hp' },
+        { key: 'Torque', val: '152 Nm' },
+        { key: 'Transmission', val: 'CVT / MT' },
+        { key: 'Fuel Econ.', val: '18–22 km/L' },
+        { key: 'Seating', val: '5 Passengers' },
+      ],
+      exterior: [
+        { label: 'Front', icon: '🚗', angle: 'Front View' },
+        { label: 'Side', icon: '🚘', angle: 'Side Profile' },
+        { label: 'Rear', icon: '🚙', angle: 'Rear View' },
+        { label: 'Detail', icon: '🔍', angle: 'Detail Shot' },
+      ],
+      interior: [
+        { label: 'Dashboard', icon: '🎛️' },
+        { label: 'Seats', icon: '💺' },
+        { label: 'Console', icon: '🕹️' },
+        { label: 'Infotainment', icon: '📱' },
+        { label: 'Trunk', icon: '📦' },
+        { label: 'Wheels', icon: '⚙️' },
+      ]
+    },
+    kicks: {
+      name: 'Kicks',
+      colors: [
+        { name: 'Passion Twist Red', hex: '#C8102E' },
+        { name: 'Ivory Pearl', hex: '#F5F0E8' },
+        { name: 'Monarch Orange', hex: '#E86A22' },
+        { name: 'Storm White', hex: '#F5F5F5' },
+        { name: 'Super Black', hex: '#111111' },
+      ],
+      specs: [
+        { key: 'Engine', val: '1.6L DOHC Petrol' },
+        { key: 'Power', val: '117 hp' },
+        { key: 'Torque', val: '149 Nm' },
+        { key: 'Transmission', val: 'CVT' },
+        { key: 'Fuel Econ.', val: '16–20 km/L' },
+        { key: 'Seating', val: '5 Passengers' },
+      ],
+      exterior: [
+        { label: 'Front', icon: '🚗', angle: 'Front View' },
+        { label: 'Side', icon: '🚘', angle: 'Side Profile' },
+        { label: 'Rear', icon: '🚙', angle: 'Rear View' },
+        { label: 'Detail', icon: '🔍', angle: 'Detail Shot' },
+      ],
+      interior: [
+        { label: 'Dashboard', icon: '🎛️' },
+        { label: 'Seats', icon: '💺' },
+        { label: 'Console', icon: '🕹️' },
+        { label: 'Infotainment', icon: '📱' },
+        { label: 'Trunk', icon: '📦' },
+        { label: 'Panoramic Roof', icon: '🌤️' },
+      ]
+    },
+    patrol: {
+      name: 'Patrol Royale',
+      colors: [
+        { name: 'Midnight Black', hex: '#111111' },
+        { name: 'Brilliant Silver', hex: '#C0C0C0' },
+        { name: 'Diamond White', hex: '#F8F8F8' },
+        { name: 'Bronze', hex: '#8B6914' },
+      ],
+      specs: [
+        { key: 'Engine', val: '5.6L V8 Petrol' },
+        { key: 'Power', val: '400 hp' },
+        { key: 'Torque', val: '560 Nm' },
+        { key: 'Transmission', val: '7-Speed Auto' },
+        { key: 'Drive', val: 'Permanent 4WD' },
+        { key: 'Seating', val: '8 Passengers' },
+      ],
+      exterior: [
+        { label: 'Front', icon: '🚗', angle: 'Front View' },
+        { label: 'Side', icon: '🚘', angle: 'Side Profile' },
+        { label: 'Rear', icon: '🚙', angle: 'Rear View' },
+        { label: 'Detail', icon: '🔍', angle: 'Detail Shot' },
+      ],
+      interior: [
+        { label: 'Dashboard', icon: '🎛️' },
+        { label: 'Captain Seats', icon: '💺' },
+        { label: '3rd Row', icon: '🪑' },
+        { label: 'Infotainment', icon: '📱' },
+        { label: 'Rear Console', icon: '🕹️' },
+        { label: 'Cargo Area', icon: '📦' },
+      ]
+    }
+  };
+
+  // ── SHOWROOM STATE ──
+  let currentModel = 'navara';
+  let currentView = 'exterior';  // 'exterior' | 'interior'
+  let currentImageIdx = 0;
+  let currentColorIdx = 0;
+
+  const svModelName   = document.getElementById('svModelName');
+  const svColors      = document.getElementById('svColors');
+  const svColorName   = document.getElementById('svColorName');
+  const svSpecs       = document.getElementById('svSpecs');
+  const svThumbs      = document.getElementById('svThumbs');
+  const svImageWrap   = document.getElementById('svImageWrap');
+  const svViewBadge   = document.getElementById('svViewBadge');
+
+  // Build a nice CSS car silhouette for exterior
+  function buildCarSVG(model, colorHex) {
+    const shapes = {
+      navara: `
+        <svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" class="car-svg">
+          <defs>
+            <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="${colorHex}" stop-opacity="1"/>
+              <stop offset="100%" stop-color="${colorHex}" stop-opacity="0.6"/>
+            </linearGradient>
+            <linearGradient id="glassG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#a0d8ef" stop-opacity="0.7"/>
+              <stop offset="100%" stop-color="#4aa3cc" stop-opacity="0.4"/>
+            </linearGradient>
+          </defs>
+          <!-- Truck bed -->
+          <rect x="310" y="100" width="190" height="85" rx="4" fill="url(#bodyG)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+          <!-- Cab body -->
+          <rect x="100" y="90" width="230" height="95" rx="6" fill="url(#bodyG)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+          <!-- Cab roof -->
+          <path d="M130,90 L160,50 L270,50 L320,90 Z" fill="url(#bodyG)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+          <!-- Windows -->
+          <path d="M155,88 L178,56 L248,56 L272,88 Z" fill="url(#glassG)"/>
+          <!-- Front bumper -->
+          <rect x="60" y="130" width="50" height="30" rx="4" fill="${colorHex}" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <!-- Headlight -->
+          <rect x="65" y="115" width="30" height="16" rx="3" fill="#fffbe6" opacity="0.9"/>
+          <!-- Grille -->
+          <rect x="65" y="133" width="40" height="8" rx="2" fill="rgba(0,0,0,0.3)"/>
+          <!-- Rear lights -->
+          <rect x="460" y="110" width="24" height="18" rx="3" fill="#C8102E" opacity="0.85"/>
+          <!-- Wheels -->
+          <circle cx="170" cy="188" r="32" fill="#1a1a1a" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+          <circle cx="170" cy="188" r="20" fill="#333" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <circle cx="170" cy="188" r="8" fill="#555"/>
+          <circle cx="400" cy="188" r="32" fill="#1a1a1a" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+          <circle cx="400" cy="188" r="20" fill="#333" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <circle cx="400" cy="188" r="8" fill="#555"/>
+          <!-- Shadow -->
+          <ellipse cx="285" cy="222" rx="220" ry="10" fill="rgba(0,0,0,0.4)"/>
+        </svg>`,
+      terra: `
+        <svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" class="car-svg">
+          <defs>
+            <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="${colorHex}" stop-opacity="1"/>
+              <stop offset="100%" stop-color="${colorHex}" stop-opacity="0.65"/>
+            </linearGradient>
+            <linearGradient id="glassG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#a0d8ef" stop-opacity="0.7"/>
+              <stop offset="100%" stop-color="#4aa3cc" stop-opacity="0.4"/>
+            </linearGradient>
+          </defs>
+          <!-- Main body -->
+          <rect x="60" y="100" width="440" height="88" rx="8" fill="url(#bodyG)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+          <!-- Roof -->
+          <path d="M110,100 L145,52 L390,52 L430,100 Z" fill="url(#bodyG)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+          <!-- Windows -->
+          <path d="M150,98 L178,60 L260,60 L280,98 Z" fill="url(#glassG)"/>
+          <path d="M288,98 L290,60 L370,60 L388,98 Z" fill="url(#glassG)"/>
+          <!-- Headlight -->
+          <rect x="68" y="110" width="38" height="18" rx="4" fill="#fffbe6" opacity="0.9"/>
+          <rect x="68" y="130" width="35" height="8" rx="2" fill="rgba(0,0,0,0.3)"/>
+          <!-- Tail light -->
+          <rect x="452" y="108" width="28" height="20" rx="4" fill="#C8102E" opacity="0.85"/>
+          <!-- Wheels -->
+          <circle cx="165" cy="192" r="35" fill="#1a1a1a" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+          <circle cx="165" cy="192" r="22" fill="#333" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <circle cx="165" cy="192" r="9" fill="#555"/>
+          <circle cx="395" cy="192" r="35" fill="#1a1a1a" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+          <circle cx="395" cy="192" r="22" fill="#333" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <circle cx="395" cy="192" r="9" fill="#555"/>
+          <ellipse cx="280" cy="228" rx="225" ry="10" fill="rgba(0,0,0,0.4)"/>
+        </svg>`,
+      almera: `
+        <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" class="car-svg">
+          <defs>
+            <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="${colorHex}" stop-opacity="1"/>
+              <stop offset="100%" stop-color="${colorHex}" stop-opacity="0.65"/>
+            </linearGradient>
+            <linearGradient id="glassG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#a0d8ef" stop-opacity="0.7"/>
+              <stop offset="100%" stop-color="#4aa3cc" stop-opacity="0.4"/>
+            </linearGradient>
+          </defs>
+          <!-- Body – sedan shape -->
+          <rect x="50" y="110" width="460" height="72" rx="6" fill="url(#bodyG)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+          <!-- Roof – lower sedan arch -->
+          <path d="M130,110 L170,60 L380,60 L420,110 Z" fill="url(#bodyG)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+          <path d="M175,108 L200,66 L270,66 L295,108 Z" fill="url(#glassG)"/>
+          <path d="M302,108 L308,66 L368,66 L393,108 Z" fill="url(#glassG)"/>
+          <rect x="56" y="118" width="34" height="14" rx="3" fill="#fffbe6" opacity="0.9"/>
+          <rect x="470" y="116" width="26" height="16" rx="3" fill="#C8102E" opacity="0.85"/>
+          <circle cx="158" cy="186" r="28" fill="#1a1a1a" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+          <circle cx="158" cy="186" r="17" fill="#333"/>
+          <circle cx="158" cy="186" r="7" fill="#555"/>
+          <circle cx="402" cy="186" r="28" fill="#1a1a1a" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+          <circle cx="402" cy="186" r="17" fill="#333"/>
+          <circle cx="402" cy="186" r="7" fill="#555"/>
+          <ellipse cx="280" cy="216" rx="218" ry="8" fill="rgba(0,0,0,0.4)"/>
+        </svg>`,
+      kicks: `
+        <svg viewBox="0 0 560 230" xmlns="http://www.w3.org/2000/svg" class="car-svg">
+          <defs>
+            <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="${colorHex}" stop-opacity="1"/>
+              <stop offset="100%" stop-color="${colorHex}" stop-opacity="0.65"/>
+            </linearGradient>
+            <linearGradient id="glassG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#a0d8ef" stop-opacity="0.7"/>
+              <stop offset="100%" stop-color="#4aa3cc" stop-opacity="0.4"/>
+            </linearGradient>
+          </defs>
+          <!-- Crossover body -->
+          <rect x="55" y="105" width="450" height="82" rx="8" fill="url(#bodyG)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+          <!-- Roof - sporty slant -->
+          <path d="M120,105 L162,52 L395,52 L432,105 Z" fill="url(#bodyG)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+          <path d="M168,103 L195,58 L278,58 L298,103 Z" fill="url(#glassG)"/>
+          <path d="M306,103 L312,58 L382,58 L404,103 Z" fill="url(#glassG)"/>
+          <rect x="60" y="114" width="38" height="15" rx="4" fill="#fffbe6" opacity="0.9"/>
+          <rect x="462" y="112" width="28" height="18" rx="4" fill="#C8102E" opacity="0.85"/>
+          <circle cx="162" cy="192" r="30" fill="#1a1a1a" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+          <circle cx="162" cy="192" r="19" fill="#333"/>
+          <circle cx="162" cy="192" r="8" fill="#555"/>
+          <circle cx="398" cy="192" r="30" fill="#1a1a1a" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+          <circle cx="398" cy="192" r="19" fill="#333"/>
+          <circle cx="398" cy="192" r="8" fill="#555"/>
+          <ellipse cx="280" cy="224" rx="222" ry="9" fill="rgba(0,0,0,0.4)"/>
+        </svg>`,
+      patrol: `
+        <svg viewBox="0 0 560 250" xmlns="http://www.w3.org/2000/svg" class="car-svg">
+          <defs>
+            <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="${colorHex}" stop-opacity="1"/>
+              <stop offset="100%" stop-color="${colorHex}" stop-opacity="0.65"/>
+            </linearGradient>
+            <linearGradient id="glassG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#a0d8ef" stop-opacity="0.7"/>
+              <stop offset="100%" stop-color="#4aa3cc" stop-opacity="0.4"/>
+            </linearGradient>
+          </defs>
+          <!-- Big boxy SUV body -->
+          <rect x="50" y="95" width="460" height="100" rx="6" fill="url(#bodyG)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+          <!-- Roof – tall boxy -->
+          <rect x="90" y="50" width="380" height="46" rx="5" fill="url(#bodyG)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+          <rect x="100" y="53" width="155" height="40" rx="3" fill="url(#glassG)"/>
+          <rect x="265" y="53" width="155" height="40" rx="3" fill="url(#glassG)"/>
+          <!-- Front grille & lights -->
+          <rect x="55" y="105" width="40" height="22" rx="4" fill="#fffbe6" opacity="0.9"/>
+          <rect x="58" y="128" width="36" height="12" rx="2" fill="rgba(0,0,0,0.4)"/>
+          <rect x="465" y="103" width="35" height="24" rx="4" fill="#C8102E" opacity="0.85"/>
+          <!-- Roof rack hint -->
+          <rect x="110" y="47" width="340" height="4" rx="2" fill="rgba(0,0,0,0.3)"/>
+          <!-- Wheels – bigger -->
+          <circle cx="158" cy="200" r="38" fill="#1a1a1a" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+          <circle cx="158" cy="200" r="24" fill="#333"/>
+          <circle cx="158" cy="200" r="10" fill="#555"/>
+          <circle cx="402" cy="200" r="38" fill="#1a1a1a" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+          <circle cx="402" cy="200" r="24" fill="#333"/>
+          <circle cx="402" cy="200" r="10" fill="#555"/>
+          <ellipse cx="280" cy="238" rx="228" ry="11" fill="rgba(0,0,0,0.45)"/>
+        </svg>`
+    };
+    return shapes[model] || shapes.navara;
+  }
+
+  // Interior spot descriptions per view slot
+  const INTERIOR_VIEWS = [
+    { icon: '🎛️', label: 'Dashboard', desc: 'Multi-info display & instrument cluster' },
+    { icon: '💺', label: 'Front Seats', desc: 'Leather-accented front seating' },
+    { icon: '🕹️', label: 'Center Console', desc: 'Gear shifter, armrest & storage' },
+    { icon: '📱', label: 'Infotainment', desc: 'Touchscreen with Apple CarPlay / Android Auto' },
+    { icon: '🔆', label: 'Ambient Lighting', desc: 'Cabin mood & interior lighting' },
+    { icon: '⚙️', label: 'Wheels & Trims', desc: 'Alloy wheels and exterior trim details' },
+  ];
+
+  function renderShowroom() {
+    const m = MODELS[currentModel];
+    svModelName.textContent = m.name;
+
+    // Colors
+    svColors.innerHTML = m.colors.map((c, i) => `
+      <div class="sv-color-swatch ${i === currentColorIdx ? 'active' : ''}"
+           style="background:${c.hex}; box-shadow: 0 2px 8px ${c.hex}55;"
+           data-idx="${i}" title="${c.name}"></div>
+    `).join('');
+    svColorName.textContent = m.colors[currentColorIdx].name;
+
+    svColors.querySelectorAll('.sv-color-swatch').forEach(sw => {
+      sw.addEventListener('click', () => {
+        currentColorIdx = +sw.dataset.idx;
+        renderShowroom();
+      });
+    });
+
+    // Specs
+    svSpecs.innerHTML = m.specs.map(s => `
+      <div class="sv-spec-row">
+        <span class="sv-spec-key">${s.key}</span>
+        <span class="sv-spec-val">${s.val}</span>
+      </div>
+    `).join('');
+
+    renderViewer();
+  }
+
+  function renderViewer() {
+    const m = MODELS[currentModel];
+    const colorHex = m.colors[currentColorIdx].hex;
+
+    if (currentView === 'exterior') {
+      const angles = m.exterior;
+      if (currentImageIdx >= angles.length) currentImageIdx = 0;
+
+      // Build image slots
+      svImageWrap.innerHTML = angles.map((a, i) => `
+        <div class="sv-image ${i === currentImageIdx ? 'active' : ''}">
+          <div class="car-placeholder">
+            ${buildCarSVG(currentModel, colorHex)}
+            <div style="margin-top:8px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.2);">${a.angle}</div>
+          </div>
+        </div>
+      `).join('');
+
+      // Thumbs
+      svThumbs.innerHTML = angles.map((a, i) => `
+        <div class="sv-thumb ${i === currentImageIdx ? 'active' : ''}" data-idx="${i}">${a.label}</div>
+      `).join('');
+
+      svThumbs.querySelectorAll('.sv-thumb').forEach(t => {
+        t.addEventListener('click', () => {
+          currentImageIdx = +t.dataset.idx;
+          renderViewer();
+        });
+      });
+
+      svViewBadge.textContent = `Exterior · ${angles[currentImageIdx].angle}`;
+
+    } else {
+      // Interior grid view
+      svImageWrap.innerHTML = `
+        <div style="width:100%;padding:32px 24px 60px;">
+          <p style="font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:16px;text-align:center;">Select a view</p>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;">
+            ${INTERIOR_VIEWS.map((v, i) => `
+              <div class="sv-int-card" style="cursor:pointer;background:#1e1e1e;aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:background 0.2s;position:relative;"
+                   onmouseover="this.style.background='#2a2a2a'"
+                   onmouseout="this.style.background='#1e1e1e'">
+                <div class="int-overlay" style="position:absolute;inset:0;border:2px solid transparent;transition:border-color 0.2s;pointer-events:none;"></div>
+                <div style="font-size:28px;">${v.icon}</div>
+                <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);">${v.label}</div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.25);text-align:center;padding:0 8px;line-height:1.3;">${v.desc}</div>
+              </div>
+            `).join('')}
+          </div>
+          <p style="text-align:center;margin-top:24px;font-size:12px;color:rgba(255,255,255,0.2);font-style:italic;">Upload your actual interior photos to replace these placeholders</p>
+        </div>
+      `;
+
+      svThumbs.innerHTML = '';
+      svViewBadge.textContent = 'Interior · Overview';
+    }
+  }
+
+  // Model tab clicks
+  document.getElementById('modelTabs').querySelectorAll('.model-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.model-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentModel = tab.dataset.model;
+      currentColorIdx = 0;
+      currentImageIdx = 0;
+      renderShowroom();
+    });
+  });
+
+  // View toggle (Exterior / Interior)
+  document.querySelectorAll('.sv-view-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.sv-view-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentView = btn.dataset.view;
+      currentImageIdx = 0;
+      renderViewer();
+    });
+  });
+
+  // Arrow navigation
+  document.getElementById('svPrev').addEventListener('click', () => {
+    const len = MODELS[currentModel].exterior.length;
+    currentImageIdx = (currentImageIdx - 1 + len) % len;
+    renderViewer();
+  });
+
+  document.getElementById('svNext').addEventListener('click', () => {
+    const len = MODELS[currentModel].exterior.length;
+    currentImageIdx = (currentImageIdx + 1) % len;
+    renderViewer();
+  });
+
+  // Init
+  renderShowroom();
+</script>
+</body>
+</html>
