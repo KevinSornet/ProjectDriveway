@@ -1405,7 +1405,7 @@
 <!-- NAV -->
 <nav>
   <a class="nav-logo" href="#">
-    <img src="images/SVC VENTURES.png" alt="Synergyauto Ventures Corp." style="height:84px;width:auto;object-fit:contain;display:block;mix-blend-mode:multiply;">
+    <img src="images/SVC VENTURES.png" alt="Synergyauto Ventures Corp." style="height:44px;width:auto;object-fit:contain;display:block;mix-blend-mode:multiply;">
   </a>
   <ul class="nav-links">
     <li><a href="#dealerships">Dealerships</a></li>
@@ -1441,7 +1441,7 @@
   <div class="hero-speed-lines"></div>
 
   <div style="position:absolute;top:90px;left:5%;right:5%;display:flex;align-items:center;gap:16px;opacity:0;animation:fadeUp 0.8s 0.2s forwards;">
-    <img src="images/Nissan White Logo.png" alt="Nissan" style="height:36px;width:36px;object-fit:contain;">
+    <img src="images/Nissan White Logo.png" alt="Nissan" style="height:66px;width:36px;object-fit:contain;">
     <p class="hero-eyebrow" style="margin-bottom:0;">Authorized Nissan Dealer Group · South NCR & South Luzon</p>
   </div>
   <h1 class="hero-title">
@@ -1690,24 +1690,24 @@
       <div class="form-two-col">
         <div class="form-row">
           <label>First Name</label>
-          <input type="text" placeholder="Juan">
+          <input type="text" id="firstName" placeholder="Juan">
         </div>
         <div class="form-row">
           <label>Last Name</label>
-          <input type="text" placeholder="dela Cruz">
+          <input type="text" id="lastName" placeholder="dela Cruz">
         </div>
       </div>
       <div class="form-row">
         <label>Mobile Number</label>
-        <input type="tel" placeholder="+63 9XX XXX XXXX">
+        <input type="tel" id="mobile" placeholder="+63 9XX XXX XXXX">
       </div>
       <div class="form-row">
         <label>Email Address</label>
-        <input type="email" placeholder="juan@email.com">
+        <input type="email" id="email" placeholder="juan@email.com">
       </div>
       <div class="form-row">
         <label>Vehicle of Interest</label>
-        <select>
+        <select id="vehicle">
           <option value="">Select a model...</option>
           <option>Nissan Navara</option>
           <option>Nissan Terra</option>
@@ -1719,7 +1719,7 @@
       </div>
       <div class="form-row">
         <label>Preferred Dealership</label>
-        <select>
+        <select id="dealership">
           <option value="">Nearest branch...</option>
           <option>Nissan Alabang</option>
           <option>Nissan Sucat</option>
@@ -1731,12 +1731,76 @@
       </div>
       <div class="form-row">
         <label>Message (Optional)</label>
-        <textarea placeholder="Any specific requirements, color preferences, or questions?"></textarea>
+        <textarea id="message" placeholder="Any specific requirements, color preferences, or questions?"></textarea>
       </div>
-      <button class="btn-primary" style="width:100%; text-align:center; border:none; cursor:pointer;">Submit Inquiry</button>
+      <button id="submitBtn" class="btn-primary" style="width:100%; text-align:center; border:none; cursor:pointer;" onclick="submitInquiry()">Submit Inquiry</button>
+      <div id="formMsg" style="display:none;margin-top:16px;padding:14px 18px;font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:1px;text-align:center;"></div>
     </div>
   </div>
 </section>
+
+<script>
+  const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxOvl3D_DbYbKbQ6NisIrfxk7ISHPRTPeuTOZnxdfT_apzHlX8OgVvJM3gBTqDNYTen/exec';
+
+  async function submitInquiry() {
+    const btn = document.getElementById('submitBtn');
+    const msg = document.getElementById('formMsg');
+
+    const firstName   = document.getElementById('firstName').value.trim();
+    const lastName    = document.getElementById('lastName').value.trim();
+    const mobile      = document.getElementById('mobile').value.trim();
+    const email       = document.getElementById('email').value.trim();
+    const vehicle     = document.getElementById('vehicle').value;
+    const dealership  = document.getElementById('dealership').value;
+    const message     = document.getElementById('message').value.trim();
+
+    if (!firstName || !lastName || !mobile || !email || !vehicle || !dealership) {
+      msg.style.display = 'block';
+      msg.style.background = 'rgba(200,16,46,0.08)';
+      msg.style.border = '1px solid rgba(200,16,46,0.3)';
+      msg.style.color = '#C8102E';
+      msg.textContent = 'Please fill in all required fields.';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    btn.style.opacity = '0.7';
+
+    try {
+      await fetch(SHEETS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ firstName, lastName, mobile, email, vehicle, dealership, message })
+      });
+
+      msg.style.display = 'block';
+      msg.style.background = 'rgba(0,160,80,0.08)';
+      msg.style.border = '1px solid rgba(0,160,80,0.3)';
+      msg.style.color = '#007a3d';
+      msg.textContent = '✓ Inquiry submitted! A consultant will contact you within 24 hours.';
+
+      document.getElementById('firstName').value = '';
+      document.getElementById('lastName').value = '';
+      document.getElementById('mobile').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('vehicle').value = '';
+      document.getElementById('dealership').value = '';
+      document.getElementById('message').value = '';
+      btn.textContent = 'Submitted ✓';
+    } catch (err) {
+      msg.style.display = 'block';
+      msg.style.background = 'rgba(200,16,46,0.08)';
+      msg.style.border = '1px solid rgba(200,16,46,0.3)';
+      msg.style.color = '#C8102E';
+      msg.textContent = 'Something went wrong. Please try again or call us directly.';
+      btn.disabled = false;
+      btn.textContent = 'Submit Inquiry';
+      btn.style.opacity = '1';
+    }
+  }
+</script>
 
 <!-- SERVICE -->
 <section id="service">
@@ -1744,7 +1808,7 @@
     <div>
       <p class="section-tag">After-Sales</p>
       <h2 class="section-title">Keep Your<br><span class="accent">Nissan</span><br>Peak Ready</h2>
-      <img src="images/NIM Black Logo.png" alt="Nissan Intelligent Mobility" style="height:96px;width:auto;object-fit:contain;margin-top:16px;opacity:0.5;filter:brightness(0);">
+      <img src="images/NIM Black Logo.png" alt="Nissan Intelligent Mobility" style="height:86px;width:auto;object-fit:contain;margin-top:16px;opacity:0.5;filter:brightness(0);">
       <p style="color:var(--text-muted);font-size:15px;line-height:1.7;margin-top:20px;margin-bottom:40px;">
         Our Nissan-trained technicians and genuine parts keep your vehicle running at its best. Book a service appointment at any of our dealerships — quick, professional, and guaranteed.
       </p>
