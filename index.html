@@ -1788,7 +1788,9 @@
       document.getElementById('vehicle').value = '';
       document.getElementById('dealership').value = '';
       document.getElementById('message').value = '';
-      btn.textContent = 'Submitted ✓';
+      btn.textContent = 'Submit Inquiry';
+      btn.disabled = false;
+      btn.style.opacity = '1';
     } catch (err) {
       msg.style.display = 'block';
       msg.style.background = 'rgba(200,16,46,0.08)';
