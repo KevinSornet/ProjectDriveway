@@ -876,7 +876,7 @@ async function submitBooking() {
   try {
     await fetch(SHEETS_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ type:'booking', firstName, lastName, mobile, email, branch, date, model, serviceType, notes }) });
     showMsg('svcMsg', 'ok', '✓ Booking request received! A service advisor will confirm your slot within 24 hours.');
-    ['svcFirstName','svcLastName','svcMobile','svcEmail','svcBranch','svcDate','svcModel','svcPlate','svcNotes'].forEach(id => get(id).value = '');
+    ['svcFirstName','svcLastName','svcMobile','svcEmail','svcBranch','svcDate','svcModel','svcNotes'].forEach(id => get(id).value = '');
     document.querySelectorAll('.svc-chip.selected').forEach(c => c.classList.remove('selected'));
   } catch(e) {
     showMsg('svcMsg', 'err', 'Something went wrong. Please try again or call us directly.');
