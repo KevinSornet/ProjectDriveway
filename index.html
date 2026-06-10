@@ -702,7 +702,6 @@
         </div>
         <div class="form-two-col">
           <div class="form-row"><label>Nissan Model</label><input type="text" id="svcModel" placeholder="e.g. Navara 2023"></div>
-          <div class="form-row"><label>Plate Number</label><input type="text" id="svcPlate" placeholder="ABC 1234"></div>
         </div>
         <div style="margin-bottom:18px;">
           <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">Service Type</label>
@@ -793,7 +792,7 @@
 
 <script>
 // ── CONFIG ──
-const SHEETS_URL = 'YOUR_WEB_APP_URL_HERE';
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyywob1GvrR-m4Wx9lmnj-vvijBCENxEeVn000uOojwJTyBk49e4rfRJGq2R0f17Fn6/exec';
 
 // ── HAMBURGER ──
 const hamburger = document.getElementById('hamburger');
@@ -865,7 +864,6 @@ async function submitBooking() {
   const branch    = get('svcBranch').value;
   const date      = get('svcDate').value;
   const model     = get('svcModel').value.trim();
-  const plate     = get('svcPlate').value.trim();
   const notes     = get('svcNotes').value.trim();
   const serviceType = [...document.querySelectorAll('.svc-chip.selected')].map(c => c.textContent.trim()).join(', ') || 'Not specified';
 
@@ -876,7 +874,7 @@ async function submitBooking() {
   btn.disabled = true; btn.textContent = 'Sending...'; btn.style.opacity = '0.7';
 
   try {
-    await fetch(SHEETS_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ type:'booking', firstName, lastName, mobile, email, branch, date, model, plate, serviceType, notes }) });
+    await fetch(SHEETS_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ type:'booking', firstName, lastName, mobile, email, branch, date, model, serviceType, notes }) });
     showMsg('svcMsg', 'ok', '✓ Booking request received! A service advisor will confirm your slot within 24 hours.');
     ['svcFirstName','svcLastName','svcMobile','svcEmail','svcBranch','svcDate','svcModel','svcPlate','svcNotes'].forEach(id => get(id).value = '');
     document.querySelectorAll('.svc-chip.selected').forEach(c => c.classList.remove('selected'));
