@@ -283,6 +283,29 @@
   .sv-cta:hover { background: var(--yellow); color: var(--black); }
   .sv-brochure { margin-top: 8px; display: block; text-align: center; padding: 10px; font-family: 'Nissan Brand', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.12); text-decoration: none; transition: all 0.2s; }
   .sv-brochure:hover { color: white; border-color: rgba(255,255,255,0.3); }
+  .sv-compare-btn { width: 100%; background: transparent; cursor: pointer; color: var(--yellow); border-color: rgba(245,195,0,0.35); }
+  .sv-compare-btn:hover { color: var(--black); background: var(--yellow); border-color: var(--yellow); }
+
+  /* VARIANT COMPARISON */
+  .vc-dialog { width: min(1180px, calc(100vw - 32px)); max-height: calc(100vh - 48px); margin: auto; padding: 28px 28px 20px; border: 1px solid rgba(255,255,255,0.1); border-top: 3px solid var(--red); background: #111; color: white; overflow: auto; }
+  .vc-dialog::backdrop { background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
+  .vc-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 10px; }
+  .vc-title { font-weight: 900; font-size: 28px; text-transform: uppercase; letter-spacing: -0.5px; }
+  .vc-close { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; width: 40px; height: 40px; font-size: 16px; cursor: pointer; flex-shrink: 0; transition: background 0.2s, border-color 0.2s; }
+  .vc-close:hover { background: var(--red); border-color: var(--red); }
+  .vc-common { font-size: 13px; line-height: 1.55; color: rgba(255,255,255,0.6); margin-bottom: 18px; max-width: 900px; }
+  .vc-scroll { overflow-x: auto; border: 1px solid rgba(255,255,255,0.08); }
+  .vc-table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+  .vc-table th, .vc-table td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.06); text-align: center; vertical-align: top; line-height: 1.4; min-width: 120px; }
+  .vc-table thead th { position: sticky; top: 0; background: #1b1b1b; font-weight: 700; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: white; border-bottom: 2px solid var(--red); }
+  .vc-table tbody th { text-align: left; font-weight: 600; font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.45); position: sticky; left: 0; background: #111; min-width: 150px; }
+  .vc-table thead th:first-child { left: 0; z-index: 1; }
+  .vc-table td { color: rgba(255,255,255,0.85); }
+  .vc-table tr.vc-price td { color: var(--yellow); font-weight: 700; font-size: 14px; }
+  .vc-table td.vc-yes { color: #4cc38a; font-weight: 700; }
+  .vc-table td.vc-no { color: rgba(255,255,255,0.25); }
+  .vc-note, .vc-fine { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 12px; line-height: 1.5; }
+  .vc-fine { color: rgba(255,255,255,0.3); font-size: 11px; }
 
   /* SERVICE */
   #service { background: var(--white); }
@@ -541,11 +564,27 @@
         <div class="sv-section-label" style="margin-top:24px;">Key Features</div>
         <ul class="sv-features" id="svFeatures"></ul>
         <a href="#contact" data-tab="inquiry" class="sv-cta">Inquire About This Model</a>
+        <button type="button" id="svCompareBtn" class="sv-brochure sv-compare-btn">⇄ Compare Variants</button>
         <a href="#" id="svBrochure" class="sv-brochure" target="_blank" rel="noopener noreferrer">⬇ Download Brochure (PDF)</a>
       </div>
     </div>
   </div>
 </section>
+
+<!-- VARIANT COMPARISON -->
+<dialog id="svCompare" class="vc-dialog" aria-labelledby="vcTitle">
+  <div class="vc-head">
+    <div>
+      <div class="sv-model-label">Compare Variants</div>
+      <h3 id="vcTitle" class="vc-title"></h3>
+    </div>
+    <button type="button" class="vc-close" id="vcClose" aria-label="Close comparison">✕</button>
+  </div>
+  <p class="vc-common" id="vcCommon"></p>
+  <div class="vc-scroll"><table class="vc-table" id="vcTable"></table></div>
+  <p class="vc-note" id="vcNote"></p>
+  <p class="vc-fine">Prices are Nissan Philippines suggested retail prices and may change without prior notice. Premium colors cost extra.</p>
+</dialog>
 
 <!-- DEALERSHIPS -->
 <section id="dealerships">
@@ -812,7 +851,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2025 Synergyauto Ventures Corporation. All Rights Reserved.</p>
+    <p>© 2026 Synergyauto Ventures Corporation. All Rights Reserved.</p>
     <div class="nissan-badge">
       <span style="color:rgba(255,255,255,0.3);font-size:11px;letter-spacing:2px;text-transform:uppercase;font-family:'Nissan Brand',sans-serif;">Authorized Dealer</span>
       <img src="images/Nissan Red Logo.png" alt="Nissan Philippines" style="height:36px;width:36px;object-fit:contain;margin-left:8px;">

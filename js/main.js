@@ -230,6 +230,178 @@ const MODELS = {
   }
 };
 
+// ── VARIANT COMPARISON ──
+// Source: Nissan Philippines price guide and official brochures. ✓ = included, — = not available.
+const VARIANTS = {
+  almera: {
+    common: 'Both variants: 1.0L turbo (100 PS, 152 Nm), CVT, NissanConnect Services, push-button start, Forward Collision Warning.',
+    cols: ['VE Turbo CVT', 'VL Turbo CVT'],
+    rows: [
+      ['Price', '₱1,099,000', '₱1,199,000'],
+      ['Wheels', '15" alloy', '16" alloy'],
+      ['Seats', 'Fabric', 'Black leather, dark blue stitching'],
+      ['Apple CarPlay & Android Auto', 'Y (8" touchscreen)', 'Y (8" touchscreen)'],
+      ['Steering wheel', 'Urethane', 'Leather-wrapped'],
+      ['Meter', 'Standard', '7" TFT'],
+      ['Blind Spot Warning & Rear Cross Traffic Alert', 'N', 'Y'],
+      ['Lane Departure Warning & High Beam Assist', 'N', 'Y'],
+      ['Tire pressure monitoring', 'N', 'Y'],
+      ['Trunk space', '466 L', '474 L'],
+      ['5-year / 150,000 km warranty', 'N', 'Y'],
+    ],
+  },
+  livina: {
+    common: 'Both variants: 1.5L petrol (105 PS, 141 Nm), 4-speed AT, 7 seats, 16" alloys, VDC, Traction Control, Hill Start Assist, reverse camera, parking sensors.',
+    cols: ['VE AT', 'VL AT'],
+    rows: [
+      ['Price', '₱1,214,000', '₱1,274,000'],
+      ['Seats', 'Brown fabric', 'Black leather'],
+      ['Keyless entry', 'Remote', 'Intelligent Key'],
+      ['Push-button start', 'N', 'Y'],
+      ['Apple CarPlay & Android Auto', 'Y (9" touchscreen)', 'Y (9" touchscreen)'],
+      ['Speakers', '4', '6'],
+      ['Steering wheel', 'Urethane, audio controls', 'Leather, audio controls'],
+      ['Meter', 'Mono-tone LCD', 'Color LCD'],
+      ['Side mirrors', 'Body color, auto-fold', 'Chrome, auto-fold'],
+      ['5-year warranty', 'N', 'Y'],
+    ],
+  },
+  kicks: {
+    common: 'All variants: 136 PS / 280 Nm e-POWER, 17" alloys, 6 airbags, Intelligent Cruise Control, Emergency Braking with pedestrian detection, Blind Spot Warning, Rear Cross Traffic Alert, 7" digital cluster, auto climate, remote engine start, 8-year e-POWER battery warranty.',
+    cols: ['VE', 'VL', 'LE Plus'],
+    rows: [
+      ['Price', '₱1,549,000', '₱1,699,000', '₱1,799,000'],
+      ['Driver seat', 'Manual 6-way', 'Power 6-way', 'Power 6-way'],
+      ['Interior', 'Black & dark grey leather', 'Black & dark grey leather', 'Moonstone leather'],
+      ['Apple CarPlay & Android Auto', 'Y (2-DIN touchscreen)', 'Wireless (12.3" touchscreen)', 'Wireless (12.3" touchscreen)'],
+      ['Speakers', '4', '6', '6'],
+      ['Camera', 'Reverse camera', 'Around View Monitor (MOD)', 'Around View Monitor (MOD)'],
+      ['Rear parking sensors', 'N', 'Y', 'Y'],
+      ['Daytime running lights', 'LED', 'Triple Arrow LED', 'Triple Arrow LED'],
+      ['ProPILOT (Traffic Jam & Lane-Keep Assist)', 'N', 'N', 'Y'],
+      ['NissanConnect Services', 'N', 'N', 'Y'],
+      ['Intelligent Rear View Mirror', 'N', 'N', 'Y'],
+      ['Rear Automatic Emergency Braking', 'N', 'N', 'Y'],
+      ['Wireless charger', 'N', 'N', 'Y'],
+      ['Black-roof two-tone paint', 'N', 'N', 'Y'],
+    ],
+  },
+  terra: {
+    common: 'All variants: 2.5L diesel (190 PS, 450 Nm), 7-speed AT, 7 seats, 18" alloys, 6 airbags, Around View Monitor with Moving Object Detection, Emergency Braking, Blind Spot Warning, Rear Cross Traffic Alert, cruise control.',
+    cols: ['VE 4x2 AT', 'VL 4x2 AT', 'VL 4x4 AT', 'Sport 4x2 AT', 'Sport 4x4 AT'],
+    rows: [
+      ['Price', '₱1,969,000', '₱2,119,000', '₱2,409,000', '₱2,179,000', '₱2,469,000'],
+      ['Drive', '4x2', '4x2', '4x4 (2H/4H/4L)', '4x2', '4x4 (2H/4H/4L)'],
+      ['Rear diff lock, Hill Descent & off-road monitor', 'N', 'N', 'Y', 'N', 'Y'],
+      ['Touchscreen', '8"', '9" with navigation', '9" with navigation', '9" with navigation', '9" with navigation'],
+      ['Apple CarPlay & Android Auto', 'Y', 'Y', 'Y', 'Y', 'Y'],
+      ['Speakers', '6', '8 BOSE', '8 BOSE', '8 BOSE', '8 BOSE'],
+      ['Climate control', 'Manual, rear cooler', 'Dual-zone auto', 'Dual-zone auto', 'Dual-zone auto', 'Dual-zone auto'],
+      ['11" flip-down rear monitor', 'N', 'Y', 'Y', 'Y', 'Y'],
+      ['Parking sensors', 'Rear', 'Front & rear', 'Front & rear', 'Front & rear', 'Front & rear'],
+      ['Tire pressure monitoring', 'N', 'Y', 'Y', 'Y', 'Y'],
+      ['Styling', 'Chrome accents', 'Chrome accents', 'Chrome accents', 'Gloss black, black alloys', 'Gloss black, black alloys'],
+    ],
+    note: 'Also available: Terra Sport VL 4x2 AT (₱2,209,000) and Sport VL 4x4 AT (₱2,499,000). Their equipment is not yet in the official brochure, so please ask a dealer.',
+  },
+  navara: {
+    common: 'All variants: 2.5L YD25 turbo diesel, 5 seats, 1,470 mm cargo bed, 6 airbags, VDC with Trailer Stability Assist, Hill Start Assist, 5-year warranty. Automatics make 190 PS / 450 Nm; the EL and VE Calibre manuals make 163 PS / 403 Nm.',
+    cols: ['EL 4x2 MT', 'VE Calibre 4x2 MT', 'VE Calibre 4x2 AT', 'VE 4x4 MT', 'VL Calibre 4x2 AT', 'Calibre-X 4x2 AT', 'VL 4x4 MT', 'VL 4x4 AT', 'PRO-4X 4x4 AT'],
+    rows: [
+      ['Price', '₱1,240,000', '₱1,595,000', '₱1,695,000', '₱1,750,000', '₱1,870,000', '₱1,965,000', '₱1,990,000', '₱2,090,000', '₱2,220,000'],
+      ['Transmission', '6-speed MT', '6-speed MT', '7-speed AT', '6-speed MT', '7-speed AT', '7-speed AT', '6-speed MT', '7-speed AT', '7-speed AT'],
+      ['Drive', '4x2', '4x2', '4x2', '4x4', '4x2', '4x2', '4x4', '4x4', '4x4'],
+      ['Rear diff lock & Hill Descent', 'N', 'N', 'N', 'Y', 'N', 'N', 'Y', 'Y', 'Y'],
+      ['Wheels', '17" steel', '17" alloy', '17" alloy', '17" alloy', '18" alloy', '17" gloss black alloy', '18" alloy', '18" alloy', '17" gloss black, all-terrain'],
+      ['Headlamps', 'Halogen', 'Quad LED', 'Quad LED', 'Quad LED', 'Quad LED', 'Quad LED', 'Quad LED', 'Quad LED', 'Quad LED'],
+      ['Touchscreen', '7"', '8"', '8"', '8"', '9" with navigation', '9" with navigation', '9" with navigation', '9" with navigation', '9" with navigation'],
+      ['Apple CarPlay & Android Auto', 'N', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y'],
+      ['Camera', 'N', 'Reverse camera', 'Reverse camera', 'Reverse camera', 'Around View (MOD)', 'Around View (MOD)', 'Around View + off-road', 'Around View + off-road', 'Around View + off-road'],
+      ['Emergency Braking & Forward Collision Warning', 'N', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y'],
+      ['Blind Spot Warning & Rear Cross Traffic Alert', 'N', 'N', 'N', 'N', 'Y', 'Y', 'Y', 'Y', 'Y'],
+      ['Climate control', 'Manual', 'Dual-zone auto', 'Dual-zone auto', 'Dual-zone auto', 'Dual-zone auto', 'Dual-zone auto', 'Dual-zone auto', 'Dual-zone auto', 'Dual-zone auto'],
+      ['Seats', 'Fabric', 'Fabric', 'Fabric', 'Fabric', 'Leather, power driver', 'Leather, power driver', 'Leather, power driver', 'Leather, power driver', 'Leather with PRO-4X stitching'],
+      ['Push-button start & rear parking sensors', 'N', 'N', 'N', 'N', 'Y', 'Y', 'Y', 'Y', 'Y'],
+    ],
+  },
+  urvan: {
+    common: 'All variants: 2.5L YD25 diesel (129 PS, 356 Nm), Vehicle Dynamic Control, High Beam Assist, automatic headlamps, front and rear air-conditioning.',
+    cols: ['C MT', 'Standard MT', 'Standard Plus MT', 'CX MT', 'CX AT', 'Premium MT', 'Premium AT'],
+    rows: [
+      ['Price', '₱1,280,000', '₱1,570,000', '₱1,580,000', '₱1,820,000', '₱1,880,000', '₱2,105,000', '₱2,165,000'],
+      ['Transmission', '5-speed MT', '5-speed MT', '5-speed MT', '5-speed MT', '5-speed AT', '5-speed MT', '5-speed AT'],
+      ['Body', 'Cargo, 5,080 mm', 'Standard roof, 4,695 mm', 'Standard roof, 4,695 mm', 'High roof van, 5,230 mm', 'High roof van, 5,230 mm', 'High roof, 5,230 mm', 'High roof, 5,230 mm'],
+      ['Rear seating', 'None (cargo)', 'Benches + jump seats', 'Bench + side-facing benches', 'None (van)', 'None (van)', '4 rows, up to 15 seats', '4 rows, up to 15 seats'],
+      ['Airbags', '2', '2', '2', '6', '6', '6', '6'],
+      ['Hill Start Assist', 'N', 'N', 'N', 'N', 'Y', 'N', 'Y'],
+      ['Apple CarPlay & Android Auto', 'N', 'N', 'N', 'N', 'N', 'N', 'N'],
+      ['Audio', '1-DIN, 2 speakers', '1-DIN, 2 speakers', '1-DIN, 2 speakers', '2-DIN CD, 4 speakers', '2-DIN CD, 4 speakers', '2-DIN CD, 4 speakers', '2-DIN CD, 4 speakers'],
+      ['Rear A/C vents', '4', '12', '12', '14', '14', '14', '14'],
+      ['Remote keyless entry & LED fog lamps', 'N', 'N', 'N', 'Y', 'Y', 'Y', 'Y'],
+      ['Payload', '1,340 kg', '1,390 kg', '1,390 kg', '1,344 kg', '1,324 kg', '1,161 kg', '1,145 kg'],
+    ],
+    note: 'The C and CX variants appear as "Cargo" and "GX Van" in the official brochure.',
+  },
+  patrol: {
+    common: 'Both variants: 3.5L twin-turbo V6 (431 PS, 700 Nm), 9-speed AT, intelligent 4WD, Adaptive Air Suspension, ProPILOT, 3D Around View Monitor with Invisible Hood View, 14.3" touchscreen, 12-speaker Klipsch audio, panoramic sunroof, 8 seats.',
+    cols: ['Patrol', 'Patrol with Rear Display'],
+    rows: [
+      ['Price', '₱5,335,000', '₱5,385,000'],
+      ['Apple CarPlay & Android Auto', 'Wireless', 'Wireless'],
+      ['Rear entertainment (dual 12.8" screens, HDMI, Miracast)', 'N', 'Y'],
+    ],
+  },
+  z: {
+    common: 'All variants: 3.0L twin-turbo V6, rear-wheel drive, mechanical limited-slip differential, 19" forged RAYS wheels, BOSE 8-speaker audio, Intelligent Cruise Control, Emergency Braking, Blind Spot Warning.',
+    cols: ['Premium MT', 'Premium AT', 'NISMO AT'],
+    rows: [
+      ['Price', '₱3,988,000', '₱3,988,000', '₱4,688,000'],
+      ['Power / torque', '383 PS / 475 Nm', '383 PS / 475 Nm', '420 PS / 520 Nm'],
+      ['Transmission', '6-speed manual, EXEDY clutch', '9-speed AT, paddle shift', 'NISMO-tuned 9-speed AT, paddle shift'],
+      ['Rev matching', 'SynchroRev Match', 'Downshift rev matching', 'Downshift rev matching'],
+      ['Apple CarPlay & Android Auto', 'Y (8" touchscreen)', 'Y (8" touchscreen)', 'Y (8" touchscreen)'],
+      ['Carbon-fiber driveshaft', 'Y', 'N', 'N'],
+      ['Seats', 'Leather, synthetic-suede inserts', 'Leather, synthetic-suede inserts', 'NISMO Recaro, Alcantara inserts'],
+      ['Brakes', 'Nissan Sport (14" front)', 'Nissan Sport (14" front)', 'NISMO/Akebono (15" front)'],
+      ['Curb weight', '1,600 kg', '1,647 kg', '1,675 kg'],
+    ],
+  },
+};
+
+function openCompare() {
+  const v = VARIANTS[currentModel];
+  if (!v) return;
+  document.getElementById('vcTitle').textContent = MODELS[currentModel].name;
+  document.getElementById('vcCommon').textContent = v.common;
+  const note = document.getElementById('vcNote');
+  note.textContent = v.note || '';
+  note.style.display = v.note ? '' : 'none';
+
+  const table = document.getElementById('vcTable');
+  table.replaceChildren();
+  const head = table.createTHead().insertRow();
+  head.appendChild(document.createElement('th'));
+  v.cols.forEach(c => { const th = document.createElement('th'); th.scope = 'col'; th.textContent = c; head.appendChild(th); });
+  const body = table.createTBody();
+  v.rows.forEach(([label, ...cells]) => {
+    const tr = body.insertRow();
+    if (label === 'Price') tr.className = 'vc-price';
+    const th = document.createElement('th'); th.scope = 'row'; th.textContent = label; tr.appendChild(th);
+    cells.forEach(val => {
+      const td = tr.insertCell();
+      const yesWithDetail = val.startsWith('Y (');
+      td.textContent = val === 'Y' ? '✓' : val === 'N' ? '—' : yesWithDetail ? '✓ ' + val.slice(2) : val;
+      if (val === 'Y' || yesWithDetail || val.startsWith('Wireless')) td.className = 'vc-yes';
+      if (val === 'N') td.className = 'vc-no';
+    });
+  });
+  document.getElementById('svCompare').showModal();
+}
+const compareDialog = document.getElementById('svCompare');
+document.getElementById('svCompareBtn').addEventListener('click', openCompare);
+document.getElementById('vcClose').addEventListener('click', () => compareDialog.close());
+compareDialog.addEventListener('click', e => { if (e.target === compareDialog) compareDialog.close(); });
+
 // ── SHOWROOM STATE ──
 let currentModel = 'almera';
 let currentView = 'exterior';
@@ -265,6 +437,7 @@ function renderShowroom() {
   const brochure = document.getElementById('svBrochure');
   brochure.href = m.brochure || '#';
   brochure.style.display = m.brochure ? '' : 'none';
+  document.getElementById('svCompareBtn').style.display = VARIANTS[currentModel] ? '' : 'none';
 
   // Colors
   document.getElementById('svColors').innerHTML = m.colors.map((c,i) =>
