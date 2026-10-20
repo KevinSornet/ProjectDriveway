@@ -369,4 +369,24 @@ function stepShowroom(dir) {
 document.getElementById('svPrev').addEventListener('click', () => stepShowroom(-1));
 document.getElementById('svNext').addEventListener('click', () => stepShowroom(1));
 
+// Keep the showroom the same height for every model so the car doesn't jump when switching:
+// measure each model's info panel once and lock the panel to the tallest one.
+function lockShowroomHeight() {
+  const panel = document.querySelector('.sv-panel');
+  const saved = [currentModel, currentView, currentImageIdx, currentColorIdx];
+  panel.style.minHeight = '';
+  let tallest = 0;
+  for (const key of MODEL_ORDER) {
+    currentModel = key; currentView = 'exterior';
+    renderShowroom();
+    tallest = Math.max(tallest, panel.offsetHeight);
+  }
+  [currentModel, currentView, currentImageIdx, currentColorIdx] = saved;
+  renderShowroom();
+  panel.style.minHeight = tallest + 'px';
+}
+let resizeTimer;
+window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(lockShowroomHeight, 200); });
+document.fonts.ready.then(lockShowroomHeight);
+
 renderShowroom();
