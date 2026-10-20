@@ -212,13 +212,13 @@
   .award-desc { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.5; }
 
   /* SHOWROOM */
-  #showroom { background: #111111; padding: 100px 0 0; overflow: hidden; }
+  #showroom { background: #111111; padding: 100px 0 0; overflow-x: clip; }
   .showroom-header { padding: 0 5% 60px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; }
   .showroom-header .section-tag { color: var(--yellow); }
   .showroom-header .section-title { color: white; }
   .showroom-header .section-title .accent { color: var(--red); }
   .showroom-header p { max-width: 360px; color: rgba(255,255,255,0.5); font-size: 15px; line-height: 1.7; }
-  .model-tabs { display: flex; gap: 2px; padding: 0 5%; overflow-x: auto; scrollbar-width: none; }
+  .model-tabs { display: flex; gap: 2px; padding: 10px 5%; overflow-x: auto; scrollbar-width: none; position: sticky; top: 70px; z-index: 50; background: #111111; border-bottom: 1px solid rgba(255,255,255,0.06); }
   .model-tabs::-webkit-scrollbar { display: none; }
   .model-tab {
     flex-shrink: 0; font-family: 'Nissan Brand', sans-serif; font-weight: 700;
