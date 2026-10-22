@@ -35,6 +35,19 @@ function showMsg(id, type, text) {
   el.textContent = text;
 }
 
+// Mobile fields show a fixed +63; keep only the local digits (drop a typed 0, 63 or +63) and format as 9XX XXX XXXX
+function phoneDigits(raw) {
+  let d = String(raw).replace(/\D/g, '');
+  if (d.startsWith('63') && d.length > 10) d = d.slice(2);
+  if (d.startsWith('0')) d = d.slice(1);
+  return d.slice(0, 10);
+}
+document.querySelectorAll('.phone-input').forEach(input => input.addEventListener('input', () => {
+  const d = phoneDigits(input.value);
+  input.value = [d.slice(0, 3), d.slice(3, 6), d.slice(6)].filter(Boolean).join(' ');
+}));
+const fullMobile = id => '+63' + phoneDigits(document.getElementById(id).value);
+
 const EMAIL_RE = /^[^\s@]{1,64}@[^\s@]{1,190}\.[a-z]{2,24}$/i;
 const PH_MOBILE_RE = /^(\+?63|0)9\d{9}$/;
 const MIN_FILL_MS = 3000;          // bots submit instantly
@@ -62,23 +75,33 @@ function checkSubmission(prefix, fields) {
   if (document.getElementById(prefix + 'Company').value) return 'bot';
   if (Date.now() - pageLoadedAt < MIN_FILL_MS) return 'Please take a moment to review your details, then try again.';
   if (Date.now() - lastSubmit() < COOLDOWN_MS) return 'Thanks! We already received a request from you. Please wait a minute before sending another.';
-  if (!fields.firstName || !fields.lastName || !fields.mobile || !fields.email) return 'Please fill in all required fields.';
+  if (!fields.firstName || !fields.lastName || fields.mobile === '+63' || !fields.email) return 'Please fill in all required fields.';
   if (!EMAIL_RE.test(fields.email)) return 'Please enter a valid email address.';
-  if (!PH_MOBILE_RE.test(fields.mobile.replace(/[\s()-]/g, ''))) return 'Please enter a valid PH mobile number (e.g. 0917 123 4567).';
+  if (!PH_MOBILE_RE.test(fields.mobile.replace(/[\s()-]/g, ''))) return 'Please enter a valid mobile number after +63 (e.g. 917 123 4567).';
   return '';
 }
+
+// What to tell the customer for each reply from the Apps Script
+const SEND_ERRORS = {
+  rejected: 'We could not accept these details. Please check each field and try again.',
+  'rate-limited': 'We are receiving a lot of requests right now. Please try again in a minute.',
+  busy: 'We are receiving a lot of requests right now. Please try again in a minute.',
+};
 
 async function send(payload, btn, label, msgId, okText, resetIds) {
   let ok = false;
   btn.disabled = true; btn.textContent = 'Sending...'; btn.style.opacity = '0.7';
   try {
-    await fetch(SHEETS_URL, { method: 'POST', mode: 'no-cors', credentials: 'omit', referrerPolicy: 'no-referrer', headers: {'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload) });
+    // The Apps Script reply is readable cross-origin, so only report success when the row was actually saved
+    const res = await fetch(SHEETS_URL, { method: 'POST', credentials: 'omit', referrerPolicy: 'no-referrer', headers: {'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload) });
+    const status = (await res.json()).status;
+    if (status !== 'ok') throw new Error(status || 'error');
     markSubmitted();
     showMsg(msgId, 'ok', okText);
     resetIds.forEach(id => document.getElementById(id).value = '');
     ok = true;
   } catch(e) {
-    showMsg(msgId, 'err', 'Something went wrong. Please try again or call us directly.');
+    showMsg(msgId, 'err', SEND_ERRORS[e.message] || 'Sorry, we could not send your request. Please try again, or call your preferred branch directly.');
   }
   btn.disabled = false; btn.textContent = label; btn.style.opacity = '1';
   return ok;
@@ -90,7 +113,7 @@ document.getElementById('inqSubmit').addEventListener('click', e => {
   const fields = {
     firstName: clean(get('inqFirstName').value, 50),
     lastName:  clean(get('inqLastName').value, 50),
-    mobile:    clean(get('inqMobile').value, 20),
+    mobile:    fullMobile('inqMobile'),
     email:     clean(get('inqEmail').value, 100),
   };
   let err = checkSubmission('inq', fields);
@@ -108,7 +131,7 @@ document.getElementById('svcSubmit').addEventListener('click', e => {
   const fields = {
     firstName: clean(get('svcFirstName').value, 50),
     lastName:  clean(get('svcLastName').value, 50),
-    mobile:    clean(get('svcMobile').value, 20),
+    mobile:    fullMobile('svcMobile'),
     email:     clean(get('svcEmail').value, 100),
   };
   const date = get('svcDate').value;
@@ -147,13 +170,38 @@ function newTicketId() {
   return `SVC-${date}-${rand}`;
 }
 
-function showTicket(ticketId) {
+// Branch hotlines shown on the helpdesk confirmation
+const BRANCH_PHONES = {
+  'Nissan Alabang': ['09992219082', '09992219422'],
+  'Nissan Sucat': ['09615005903'],
+  'Nissan Dasmariñas': ['09992219414'],
+  'Nissan Carmona': ['09974557636'],
+  'Nissan Calamba': ['09270681224'],
+  'Nissan Sta. Rosa': ['09557501940'],
+};
+
+function phoneLink(number) {
+  const a = document.createElement('a');
+  a.href = 'tel:+63' + number.slice(1);
+  a.textContent = `+63 ${number.slice(1, 4)} ${number.slice(4, 7)} ${number.slice(7)}`;
+  return a;
+}
+
+function showTicket(ticketId, branch) {
   const el = document.getElementById('hdMsg');
   showMsg('hdMsg', 'ok', '');
   const strong = document.createElement('span');
   strong.className = 'hd-ticket';
   strong.textContent = ticketId;
   el.replaceChildren('✓ Ticket submitted! Your ticket number is', strong, 'Please keep it for reference. Our team will get back to you within 1 business day.');
+  const numbers = BRANCH_PHONES[branch];
+  if (numbers) {
+    const contact = document.createElement('span');
+    contact.className = 'hd-contact';
+    contact.append(`For follow-ups, call or text ${branch} and mention your ticket number: `);
+    numbers.forEach((n, i) => { if (i) contact.append(' / '); contact.append(phoneLink(n)); });
+    el.append(contact);
+  }
 }
 
 document.getElementById('hdSubmit').addEventListener('click', async e => {
@@ -161,7 +209,7 @@ document.getElementById('hdSubmit').addEventListener('click', async e => {
   const fields = {
     firstName: clean(get('hdFirstName').value, 50),
     lastName:  clean(get('hdLastName').value, 50),
-    mobile:    clean(get('hdMobile').value, 20),
+    mobile:    fullMobile('hdMobile'),
     email:     clean(get('hdEmail').value, 100),
   };
   const subject = clean(get('hdSubject').value, 120);
@@ -171,14 +219,15 @@ document.getElementById('hdSubmit').addEventListener('click', async e => {
   if (!err && !isAllowedOption(get('hdContactPref'))) err = 'Please choose how you would like us to contact you.';
   if (!err && (!subject || !message)) err = 'Please add a subject and some details about your concern.';
   const ticketId = newTicketId();
-  if (err === 'bot') return showTicket(ticketId);
+  const branch = get('hdBranch').value;
+  if (err === 'bot') return showTicket(ticketId, branch);
   if (err) return showMsg('hdMsg', 'err', err);
   const btn = e.currentTarget;
   const sent = await send({ type:'helpdesk', ticketId, category: get('hdCategory').value, branch: get('hdBranch').value, ...fields,
       contactPref: get('hdContactPref').value, vehicle: clean(get('hdVehicle').value, 60), subject, message },
     btn, 'Submit Ticket', 'hdMsg', '', ['hdFirstName','hdLastName','hdMobile','hdEmail','hdVehicle','hdSubject','hdMessage','hdCategory','hdBranch','hdContactPref']);
   if (sent) {
-    showTicket(ticketId);
+    showTicket(ticketId, branch);
     document.querySelectorAll('.hd-topic.selected').forEach(t => t.classList.remove('selected'));
   }
 });

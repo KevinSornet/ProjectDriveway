@@ -185,7 +185,13 @@
   .dealer-card:hover img { opacity: 1 !important; filter: none !important; }
   .dealer-tag { font-family: 'Nissan Brand', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
   .dealer-name { font-family: 'Nissan Brand', sans-serif; font-weight: 700; font-size: 22px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; color: var(--text); }
-  .dealer-address { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; }
+  .dealer-address { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px; }
+  .dealer-phone { font-size: 13px; line-height: 1.6; margin-bottom: 20px; color: var(--text-muted); padding-left: 22px; text-indent: -22px; }
+  .dealer-phone a { color: var(--text); font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .dealer-phone a:hover { color: var(--red); }
+  .hd-contact { display: block; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(0,160,80,0.25); }
+  .hd-contact a { color: var(--text); font-weight: 700; text-decoration: none; white-space: nowrap; }
+  .hd-contact a:hover { color: var(--red); }
   .dealer-link {
     font-family: 'Nissan Brand', sans-serif; font-weight: 600; font-size: 12px;
     letter-spacing: 2px; text-transform: uppercase; color: var(--red);
@@ -352,6 +358,15 @@
   .form-row select option { background: white; color: var(--text); }
   .form-row textarea { resize: vertical; min-height: 90px; }
   .form-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .phone-field { display: flex; align-items: stretch; }
+  .phone-prefix { display: flex; align-items: center; padding: 0 12px; background: #e2e2e2; border: 1px solid rgba(0,0,0,0.1); border-right: none; font-size: 15px; font-weight: 600; color: var(--text); }
+  .form-row .phone-field .phone-input { flex: 1; min-width: 0; }
+
+  .section-switch { font-size: 14px; color: var(--text-muted); margin-bottom: 36px; padding: 12px 16px; border-left: 3px solid var(--red); background: rgba(200,16,46,0.05); max-width: 720px; }
+  .section-switch a { color: var(--red); font-weight: 700; text-decoration: none; white-space: nowrap; }
+  .section-switch a:hover { text-decoration: underline; }
+  .section-switch-dark { color: rgba(255,255,255,0.65); background: rgba(255,255,255,0.04); border-left-color: var(--yellow); margin: -8px 0 28px; }
+  .section-switch-dark a { color: var(--yellow); }
 
   /* HELPDESK */
   #helpdesk { background: #111111; color: white; }
@@ -460,9 +475,9 @@
     <li><a href="#dealerships">Dealerships</a></li>
     <li><a href="#awards">Awards</a></li>
     <li><a href="#service">Service</a></li>
-    <li><a href="#helpdesk">Helpdesk</a></li>
+    <li><a href="#helpdesk">Support</a></li>
     <!-- CAREERS (hidden for now): <li><a href="#careers">Careers</a></li> -->
-    <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+    <li><a href="#contact" class="nav-cta" data-tab="inquiry">Get a Quote</a></li>
   </ul>
   <button class="hamburger" id="hamburger" aria-label="Toggle menu">
     <span></span><span></span><span></span>
@@ -476,8 +491,8 @@
     <li><a href="#dealerships" class="mobile-nav-link">Dealerships</a></li>
     <li><a href="#awards" class="mobile-nav-link">Awards</a></li>
     <li><a href="#service" class="mobile-nav-link">Service</a></li>
-    <li><a href="#contact" class="mobile-nav-link">Contact Us</a></li>
-    <li><a href="#helpdesk" class="mobile-nav-link">Helpdesk</a></li>
+    <li><a href="#contact" class="mobile-nav-link">Sales &amp; Service</a></li>
+    <li><a href="#helpdesk" class="mobile-nav-link">Customer Support</a></li>
     <!-- CAREERS (hidden for now): <li><a href="#careers" class="mobile-nav-link">Careers</a></li> -->
   </ul>
   <a href="#contact" class="mobile-cta mobile-nav-link">Get a Quote</a>
@@ -629,6 +644,7 @@
       <p class="dealer-tag">South NCR · Award Winner</p>
       <h3 class="dealer-name">Nissan Alabang</h3>
       <p class="dealer-address">Alabang, Muntinlupa City, Metro Manila</p>
+      <p class="dealer-phone">📞 <a href="tel:+639992219082">+63 999 221 9082</a><br><a href="tel:+639992219422">+63 999 221 9422</a></p>
       <a href="https://maps.google.com/?q=Nissan+Alabang+Muntinlupa+City" target="_blank" rel="noopener noreferrer" class="dealer-link">Get Directions</a>
     </div>
     <div class="dealer-card">
@@ -637,6 +653,7 @@
       <p class="dealer-tag">South NCR</p>
       <h3 class="dealer-name">Nissan Sucat</h3>
       <p class="dealer-address">Dr. A. Santos Ave., Sucat, Parañaque City, Metro Manila</p>
+      <p class="dealer-phone">📞 <a href="tel:+639615005903">+63 961 500 5903</a></p>
       <a href="https://maps.google.com/?q=Nissan+Sucat+Paranaque+City" target="_blank" rel="noopener noreferrer" class="dealer-link">Get Directions</a>
     </div>
     <div class="dealer-card">
@@ -645,6 +662,7 @@
       <p class="dealer-tag">South Luzon · Award Winner</p>
       <h3 class="dealer-name">Nissan Dasmariñas</h3>
       <p class="dealer-address">Emilio Aguinaldo Highway, Dasmariñas City, Cavite</p>
+      <p class="dealer-phone">📞 <a href="tel:+639992219414">+63 999 221 9414</a></p>
       <a href="https://maps.google.com/?q=Nissan+Dasmarinas+Emilio+Aguinaldo+Highway+Cavite" target="_blank" rel="noopener noreferrer" class="dealer-link">Get Directions</a>
     </div>
     <div class="dealer-card">
@@ -653,6 +671,7 @@
       <p class="dealer-tag">South Luzon</p>
       <h3 class="dealer-name">Nissan Carmona</h3>
       <p class="dealer-address">Governor's Drive, Carmona, Cavite</p>
+      <p class="dealer-phone">📞 <a href="tel:+639974557636">+63 997 455 7636</a></p>
       <a href="https://maps.google.com/?q=Nissan+Carmona+Governors+Drive+Cavite" target="_blank" rel="noopener noreferrer" class="dealer-link">Get Directions</a>
     </div>
     <div class="dealer-card">
@@ -661,6 +680,7 @@
       <p class="dealer-tag">South Luzon</p>
       <h3 class="dealer-name">Nissan Calamba</h3>
       <p class="dealer-address">Maharlika Highway, Calamba City, Laguna</p>
+      <p class="dealer-phone">📞 <a href="tel:+639270681224">+63 927 068 1224</a></p>
       <a href="https://maps.google.com/?q=Nissan+Calamba+Maharlika+Highway+Laguna" target="_blank" rel="noopener noreferrer" class="dealer-link">Get Directions</a>
     </div>
     <div class="dealer-card">
@@ -669,6 +689,7 @@
       <p class="dealer-tag">South Luzon</p>
       <h3 class="dealer-name">Nissan Sta. Rosa</h3>
       <p class="dealer-address">Sta. Rosa–Tagaytay Road, Sta. Rosa City, Laguna</p>
+      <p class="dealer-phone">📞 <a href="tel:+639557501940">+63 955 750 1940</a></p>
       <a href="https://maps.google.com/?q=Nissan+Sta+Rosa+Tagaytay+Road+Laguna" target="_blank" rel="noopener noreferrer" class="dealer-link">Get Directions</a>
     </div>
   </div>
@@ -709,8 +730,9 @@
 
 <!-- CONTACT -->
 <section id="contact">
-  <p class="section-tag">Get in Touch</p>
-  <h2 class="section-title" style="margin-bottom:40px;">How Can We <span class="accent">Help You?</span></h2>
+  <p class="section-tag">Sales &amp; Service</p>
+  <h2 class="section-title" style="margin-bottom:16px;">Buy a Nissan or <span class="accent">Book a Service</span></h2>
+  <p class="section-switch">Already a customer with a concern about a purchase, repair, or warranty? <a href="#helpdesk">Go to Customer Support →</a></p>
   <div class="contact-tabs">
     <button class="contact-tab active" id="tab-inquiry" data-tab="inquiry">🚗 &nbsp;Vehicle Inquiry</button>
     <button class="contact-tab" id="tab-booking" data-tab="booking">🔧 &nbsp;Book a Service</button>
@@ -734,7 +756,7 @@
           <div class="form-row"><label>First Name</label><input type="text" id="inqFirstName" maxlength="50" autocomplete="given-name" required placeholder="Juan"></div>
           <div class="form-row"><label>Last Name</label><input type="text" id="inqLastName" maxlength="50" autocomplete="family-name" required placeholder="dela Cruz"></div>
         </div>
-        <div class="form-row"><label>Mobile</label><input type="tel" id="inqMobile" maxlength="20" autocomplete="tel" inputmode="tel" required placeholder="+63 9XX XXX XXXX"></div>
+        <div class="form-row"><label>Mobile</label><div class="phone-field"><span class="phone-prefix" aria-hidden="true">+63</span><input type="tel" id="inqMobile" class="phone-input" maxlength="12" autocomplete="tel-national" inputmode="numeric" required placeholder="9XX XXX XXXX" aria-label="Mobile number after +63"></div></div>
         <div class="form-row"><label>Email</label><input type="email" id="inqEmail" maxlength="100" autocomplete="email" required placeholder="juan@email.com"></div>
         <div class="form-row">
           <label>Vehicle of Interest</label>
@@ -778,7 +800,7 @@
           <div class="form-row"><label>Last Name</label><input type="text" id="svcLastName" maxlength="50" autocomplete="family-name" required placeholder="dela Cruz"></div>
         </div>
         <div class="form-two-col">
-          <div class="form-row"><label>Mobile</label><input type="tel" id="svcMobile" maxlength="20" autocomplete="tel" inputmode="tel" required placeholder="+63 9XX XXX XXXX"></div>
+          <div class="form-row"><label>Mobile</label><div class="phone-field"><span class="phone-prefix" aria-hidden="true">+63</span><input type="tel" id="svcMobile" class="phone-input" maxlength="12" autocomplete="tel-national" inputmode="numeric" required placeholder="9XX XXX XXXX" aria-label="Mobile number after +63"></div></div>
           <div class="form-row"><label>Email</label><input type="email" id="svcEmail" maxlength="100" autocomplete="email" required placeholder="juan@email.com"></div>
         </div>
         <div class="form-two-col">
@@ -821,15 +843,16 @@
 <section id="helpdesk">
   <div class="helpdesk-layout">
     <div class="helpdesk-left">
-      <p class="section-tag">Customer Helpdesk</p>
-      <h2 class="section-title">Need Help?<br><span class="accent">We're Here.</span></h2>
-      <p class="helpdesk-intro">Questions, requests, or concerns about your Nissan? Send us a ticket and the right team at your branch will get back to you.</p>
+      <p class="section-tag">Customer Support</p>
+      <h2 class="section-title">Already a Customer?<br><span class="accent">We're Here.</span></h2>
+      <p class="helpdesk-intro">For follow-ups and concerns about a Nissan you bought or serviced with us. Send a support ticket and the right team at your branch will get back to you.</p>
+      <p class="section-switch section-switch-dark">Looking to buy a car or book a service appointment? <a href="#contact" data-tab="inquiry">Go to Sales &amp; Service →</a></p>
       <div class="hd-topics">
-          <button type="button" class="hd-topic" data-category="Sales & Vehicle Inquiries"><span class="hd-topic-icon">🚗</span><span class="hd-topic-name">Sales & Vehicle Inquiries</span><span class="hd-topic-desc">Pricing, availability, test drives</span></button>
-          <button type="button" class="hd-topic" data-category="Service & Repairs"><span class="hd-topic-icon">🔧</span><span class="hd-topic-name">Service & Repairs</span><span class="hd-topic-desc">Appointments, repair status, concerns</span></button>
-          <button type="button" class="hd-topic" data-category="Parts & Accessories"><span class="hd-topic-icon">🔩</span><span class="hd-topic-name">Parts & Accessories</span><span class="hd-topic-desc">Genuine parts and add-ons</span></button>
-          <button type="button" class="hd-topic" data-category="Warranty"><span class="hd-topic-icon">🛡️</span><span class="hd-topic-name">Warranty</span><span class="hd-topic-desc">Coverage questions and claims</span></button>
-          <button type="button" class="hd-topic" data-category="Financing & Insurance"><span class="hd-topic-icon">💳</span><span class="hd-topic-name">Financing & Insurance</span><span class="hd-topic-desc">Loans, payment terms, insurance</span></button>
+          <button type="button" class="hd-topic" data-category="Orders, Delivery & Registration"><span class="hd-topic-icon">📦</span><span class="hd-topic-name">Orders, Delivery & Registration</span><span class="hd-topic-desc">Unit release, LTO plates, OR/CR</span></button>
+          <button type="button" class="hd-topic" data-category="Repair Follow-ups"><span class="hd-topic-icon">🔧</span><span class="hd-topic-name">Repair Follow-ups</span><span class="hd-topic-desc">Status or concerns after a service visit</span></button>
+          <button type="button" class="hd-topic" data-category="Parts & Accessories"><span class="hd-topic-icon">🔩</span><span class="hd-topic-name">Parts & Accessories</span><span class="hd-topic-desc">Orders, availability, installation</span></button>
+          <button type="button" class="hd-topic" data-category="Warranty Claims"><span class="hd-topic-icon">🛡️</span><span class="hd-topic-name">Warranty Claims</span><span class="hd-topic-desc">Coverage questions and claims</span></button>
+          <button type="button" class="hd-topic" data-category="Payments & Documents"><span class="hd-topic-icon">💳</span><span class="hd-topic-name">Payments & Documents</span><span class="hd-topic-desc">Loans, insurance, billing, receipts</span></button>
           <button type="button" class="hd-topic" data-category="Feedback & Complaints"><span class="hd-topic-icon">💬</span><span class="hd-topic-name">Feedback & Complaints</span><span class="hd-topic-desc">Tell us how we did</span></button>
       </div>
       <ol class="hd-steps">
@@ -844,7 +867,7 @@
           <label for="hdCategory">Topic</label>
           <select id="hdCategory" required>
             <option value="">Select a topic...</option>
-            <option>Sales & Vehicle Inquiries</option><option>Service & Repairs</option><option>Parts & Accessories</option><option>Warranty</option><option>Financing & Insurance</option><option>Feedback & Complaints</option><option>Other</option>
+            <option>Orders, Delivery & Registration</option><option>Repair Follow-ups</option><option>Parts & Accessories</option><option>Warranty Claims</option><option>Payments & Documents</option><option>Feedback & Complaints</option><option>Other</option>
           </select>
         </div>
         <div class="form-row">
@@ -861,7 +884,7 @@
         <div class="form-row"><label for="hdLastName">Last Name</label><input type="text" id="hdLastName" maxlength="50" autocomplete="family-name" required placeholder="dela Cruz"></div>
       </div>
       <div class="form-two-col">
-        <div class="form-row"><label for="hdMobile">Mobile</label><input type="tel" id="hdMobile" maxlength="20" autocomplete="tel" inputmode="tel" required placeholder="+63 9XX XXX XXXX"></div>
+        <div class="form-row"><label for="hdMobile">Mobile</label><div class="phone-field"><span class="phone-prefix" aria-hidden="true">+63</span><input type="tel" id="hdMobile" class="phone-input" maxlength="12" autocomplete="tel-national" inputmode="numeric" required placeholder="9XX XXX XXXX" aria-label="Mobile number after +63"></div></div>
         <div class="form-row"><label for="hdEmail">Email</label><input type="email" id="hdEmail" maxlength="100" autocomplete="email" required placeholder="juan@email.com"></div>
       </div>
       <div class="form-two-col">
@@ -928,7 +951,7 @@
         <li><a href="#showroom">Virtual Showroom</a></li>
         <li><a href="#contact" data-tab="inquiry">Vehicle Inquiry</a></li>
         <li><a href="#contact" data-tab="booking">Book a Service</a></li>
-        <li><a href="#helpdesk">Customer Helpdesk</a></li>
+        <li><a href="#helpdesk">Customer Support</a></li>
         <li><a href="#awards">Awards</a></li>
         <!-- CAREERS (hidden for now): <li><a href="#careers">Careers</a></li> -->
       </ul>

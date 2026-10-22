@@ -5,12 +5,16 @@
  * The website's own checks run in the visitor's browser and can be bypassed by
  * anyone who posts to the script URL directly, so the same checks are repeated here.
  *
- * Spreadsheet: "SVC Website" with tabs Inquiries, Service and Helpdesk.
+ * Spreadsheet: "SVC Website" with tabs Inquiries, Service and Helpdesk (opened by SPREADSHEET_ID below).
+ * Replies: "ok" = saved, "rejected" = failed validation, "error" = script problem (see Executions log).
+ * After pasting, run testSetup once from the editor to grant access and confirm the tabs are found.
  * Setup: open the spreadsheet > Extensions > Apps Script, replace the code with this file,
  * then Deploy > Manage deployments > Edit (pencil) > Version: New version > Deploy.
  * Editing the existing deployment keeps the same URL, so the website needs no change.
  */
 
+// Open the "SVC Website" spreadsheet by ID so this works whether the script is bound to the sheet or standalone
+const SPREADSHEET_ID = '1R8tp3zjl_c-XSsvrQgu-yq9mf4c7MDqv0MLPsN-V1NQ';
 const SHEET_NAMES = { inquiry: 'Inquiries', booking: 'Service', helpdesk: 'Helpdesk' };
 const MAX_PER_MINUTE = 20;   // global cap across all visitors (Apps Script cannot see IPs)
 
@@ -19,8 +23,8 @@ const ALLOWED = {
             'Nissan Terra', 'Nissan Navara', 'Nissan Navara Pro PHEV', 'Nissan Urvan', 'Nissan Patrol', 'Nissan Z',
             'Open to Suggestions'],
   branch: ['Nissan Alabang', 'Nissan Sucat', 'Nissan Dasmariñas', 'Nissan Carmona', 'Nissan Calamba', 'Nissan Sta. Rosa'],
-  category: ['Sales & Vehicle Inquiries', 'Service & Repairs', 'Parts & Accessories', 'Warranty', 'Financing & Insurance',
-             'Feedback & Complaints', 'Other'],
+  category: ['Orders, Delivery & Registration', 'Repair Follow-ups', 'Parts & Accessories', 'Warranty Claims',
+             'Payments & Documents', 'Feedback & Complaints', 'Other'],
   contactPref: ['Call', 'SMS', 'Email', 'Viber'],
 };
 
@@ -44,7 +48,7 @@ function doPost(e) {
     if (!/^[^\s@]{1,64}@[^\s@]{1,190}\.[a-z]{2,24}$/i.test(email)) return reply('rejected');
     if (!/^(\+?63|0)9\d{9}$/.test(mobile.replace(/[\s()-]/g, ''))) return reply('rejected');
 
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     if (d.type === 'inquiry') {
       if (ALLOWED.vehicle.indexOf(d.vehicle) < 0 || ALLOWED.branch.indexOf(d.dealership) < 0) return reply('rejected');
       ss.getSheetByName(SHEET_NAMES.inquiry).appendRow([new Date(), firstName, lastName, mobile, email,
@@ -71,7 +75,8 @@ function doPost(e) {
     }
     return reply('ok');
   } catch (err) {
-    return reply('rejected');
+    console.error('Form submission failed: ' + err);   // visible under Apps Script > Executions
+    return reply('error');
   } finally {
     lock.releaseLock();
   }
@@ -86,4 +91,14 @@ function clean(value, max) {
 
 function reply(status) {
   return ContentService.createTextOutput(JSON.stringify({ status: status })).setMimeType(ContentService.MimeType.JSON);
+}
+
+// Run once from the Apps Script editor (select testSetup > Run) after pasting this file.
+// It asks for permission to use the spreadsheet and checks that all three tabs exist.
+function testSetup() {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  Object.keys(SHEET_NAMES).forEach(function (key) {
+    const sheet = ss.getSheetByName(SHEET_NAMES[key]);
+    console.log(SHEET_NAMES[key] + ': ' + (sheet ? 'found' : 'MISSING'));
+  });
 }
