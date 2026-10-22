@@ -352,6 +352,26 @@
   .form-row select option { background: white; color: var(--text); }
   .form-row textarea { resize: vertical; min-height: 90px; }
   .form-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  /* HELPDESK */
+  #helpdesk { background: #111111; color: white; }
+  #helpdesk .section-tag { color: var(--yellow); }
+  #helpdesk .section-title { color: white; margin-bottom: 20px; }
+  #helpdesk .section-title .accent { color: var(--red); }
+  .helpdesk-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .helpdesk-intro { color: rgba(255,255,255,0.6); font-size: 15px; line-height: 1.7; margin-bottom: 28px; max-width: 480px; }
+  .hd-topics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 32px; }
+  .hd-topic { display: grid; grid-template-columns: auto 1fr; column-gap: 12px; align-items: center; text-align: left; padding: 14px 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: white; font-family: 'Nissan Brand', sans-serif; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+  .hd-topic:hover, .hd-topic.selected { border-color: var(--red); background: rgba(200,16,46,0.12); }
+  .hd-topic-icon { grid-row: span 2; font-size: 18px; }
+  .hd-topic-name { font-weight: 700; font-size: 13px; }
+  .hd-topic-desc { font-size: 11.5px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+  .hd-steps { list-style: none; counter-reset: hd; display: flex; flex-direction: column; gap: 12px; }
+  .hd-steps li { counter-increment: hd; display: flex; gap: 14px; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.6); }
+  .hd-steps li::before { content: counter(hd); flex-shrink: 0; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; background: var(--red); color: white; font-weight: 700; font-size: 12px; }
+  .hd-steps strong { color: white; font-weight: 600; }
+  #helpdesk .contact-form-wrap { color: var(--text); }
+  .hd-ticket { display: block; font-size: 22px; font-weight: 700; letter-spacing: 1px; margin: 6px 0 4px; color: var(--text); }
   .svc-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
   .svc-chip { font-family: 'Nissan Brand', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; padding: 8px 14px; background: var(--gray); border: 1px solid rgba(0,0,0,0.1); color: var(--text-muted); cursor: pointer; transition: all 0.2s; border-radius: 2px; }
   .svc-chip.selected { background: var(--red); color: white; border-color: var(--red); }
@@ -412,7 +432,7 @@
     .nav-links { display: none; }
     .hamburger { display: flex; }
     .mobile-menu { display: block; }
-    .service-layout, .contact-layout { grid-template-columns: 1fr; gap: 48px; }
+    .service-layout, .contact-layout, .helpdesk-layout { grid-template-columns: 1fr; gap: 48px; }
     .form-two-col { grid-template-columns: 1fr; }
     .footer-top { grid-template-columns: 1fr 1fr; }
     .hero-stat-strip { display: none; }
@@ -422,6 +442,7 @@
     .sv-panel { border-left: none; border-top: 1px solid rgba(255,255,255,0.06); }
   }
   @media (max-width: 560px) {
+    .hd-topics { grid-template-columns: 1fr; }
     .footer-top { grid-template-columns: 1fr; }
     .contact-tabs { flex-direction: column; }
   }
@@ -439,6 +460,7 @@
     <li><a href="#dealerships">Dealerships</a></li>
     <li><a href="#awards">Awards</a></li>
     <li><a href="#service">Service</a></li>
+    <li><a href="#helpdesk">Helpdesk</a></li>
     <!-- CAREERS (hidden for now): <li><a href="#careers">Careers</a></li> -->
     <li><a href="#contact" class="nav-cta">Contact Us</a></li>
   </ul>
@@ -455,6 +477,7 @@
     <li><a href="#awards" class="mobile-nav-link">Awards</a></li>
     <li><a href="#service" class="mobile-nav-link">Service</a></li>
     <li><a href="#contact" class="mobile-nav-link">Contact Us</a></li>
+    <li><a href="#helpdesk" class="mobile-nav-link">Helpdesk</a></li>
     <!-- CAREERS (hidden for now): <li><a href="#careers" class="mobile-nav-link">Careers</a></li> -->
   </ul>
   <a href="#contact" class="mobile-cta mobile-nav-link">Get a Quote</a>
@@ -770,7 +793,7 @@
           <div class="form-row"><label>Preferred Date</label><input type="date" id="svcDate" required style="background:var(--gray);border:1px solid rgba(0,0,0,0.1);color:var(--text);font-family:'Nissan Brand',sans-serif;font-size:15px;padding:12px 16px;width:100%;outline:none;appearance:none;"></div>
         </div>
         <div class="form-two-col">
-          <div class="form-row"><label>Nissan Model</label><input type="text" id="svcModel" maxlength="60" placeholder="e.g. Navara 2023"></div>
+          <div class="form-row"><label>Nissan Model</label><input type="text" id="svcModel" maxlength="60" required placeholder="e.g. Navara 2023"></div>
         </div>
         <div style="margin-bottom:18px;">
           <label style="display:block;font-family:'Nissan Brand',sans-serif;font-weight:600;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">Service Type</label>
@@ -790,6 +813,72 @@
         <button class="btn-primary" style="width:100%;text-align:center;border:none;cursor:pointer;" id="svcSubmit">Confirm Booking Request</button>
         <div class="form-msg" id="svcMsg"></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- HELPDESK -->
+<section id="helpdesk">
+  <div class="helpdesk-layout">
+    <div class="helpdesk-left">
+      <p class="section-tag">Customer Helpdesk</p>
+      <h2 class="section-title">Need Help?<br><span class="accent">We're Here.</span></h2>
+      <p class="helpdesk-intro">Questions, requests, or concerns about your Nissan? Send us a ticket and the right team at your branch will get back to you.</p>
+      <div class="hd-topics">
+          <button type="button" class="hd-topic" data-category="Sales & Vehicle Inquiries"><span class="hd-topic-icon">🚗</span><span class="hd-topic-name">Sales & Vehicle Inquiries</span><span class="hd-topic-desc">Pricing, availability, test drives</span></button>
+          <button type="button" class="hd-topic" data-category="Service & Repairs"><span class="hd-topic-icon">🔧</span><span class="hd-topic-name">Service & Repairs</span><span class="hd-topic-desc">Appointments, repair status, concerns</span></button>
+          <button type="button" class="hd-topic" data-category="Parts & Accessories"><span class="hd-topic-icon">🔩</span><span class="hd-topic-name">Parts & Accessories</span><span class="hd-topic-desc">Genuine parts and add-ons</span></button>
+          <button type="button" class="hd-topic" data-category="Warranty"><span class="hd-topic-icon">🛡️</span><span class="hd-topic-name">Warranty</span><span class="hd-topic-desc">Coverage questions and claims</span></button>
+          <button type="button" class="hd-topic" data-category="Financing & Insurance"><span class="hd-topic-icon">💳</span><span class="hd-topic-name">Financing & Insurance</span><span class="hd-topic-desc">Loans, payment terms, insurance</span></button>
+          <button type="button" class="hd-topic" data-category="Feedback & Complaints"><span class="hd-topic-icon">💬</span><span class="hd-topic-name">Feedback & Complaints</span><span class="hd-topic-desc">Tell us how we did</span></button>
+      </div>
+      <ol class="hd-steps">
+        <li><span><strong>Get a ticket number</strong> right away so you can follow up anytime.</span></li>
+        <li><span><strong>We route it</strong> to the right team at your chosen branch.</span></li>
+        <li><span><strong>We get back to you</strong> within 1 business day, by your preferred contact method.</span></li>
+      </ol>
+    </div>
+    <div class="contact-form-wrap">
+      <div class="form-two-col">
+        <div class="form-row">
+          <label for="hdCategory">Topic</label>
+          <select id="hdCategory" required>
+            <option value="">Select a topic...</option>
+            <option>Sales & Vehicle Inquiries</option><option>Service & Repairs</option><option>Parts & Accessories</option><option>Warranty</option><option>Financing & Insurance</option><option>Feedback & Complaints</option><option>Other</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="hdBranch">Branch</label>
+          <select id="hdBranch" required>
+            <option value="">Select a branch...</option>
+            <option>Nissan Alabang</option><option>Nissan Sucat</option><option>Nissan Dasmariñas</option>
+              <option>Nissan Carmona</option><option>Nissan Calamba</option><option>Nissan Sta. Rosa</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-two-col">
+        <div class="form-row"><label for="hdFirstName">First Name</label><input type="text" id="hdFirstName" maxlength="50" autocomplete="given-name" required placeholder="Juan"></div>
+        <div class="form-row"><label for="hdLastName">Last Name</label><input type="text" id="hdLastName" maxlength="50" autocomplete="family-name" required placeholder="dela Cruz"></div>
+      </div>
+      <div class="form-two-col">
+        <div class="form-row"><label for="hdMobile">Mobile</label><input type="tel" id="hdMobile" maxlength="20" autocomplete="tel" inputmode="tel" required placeholder="+63 9XX XXX XXXX"></div>
+        <div class="form-row"><label for="hdEmail">Email</label><input type="email" id="hdEmail" maxlength="100" autocomplete="email" required placeholder="juan@email.com"></div>
+      </div>
+      <div class="form-two-col">
+        <div class="form-row">
+          <label for="hdContactPref">Preferred Contact</label>
+          <select id="hdContactPref" required>
+            <option value="">Select one...</option>
+            <option>Call</option><option>SMS</option><option>Email</option><option>Viber</option>
+          </select>
+        </div>
+        <div class="form-row"><label for="hdVehicle">Vehicle / Plate No. (Optional)</label><input type="text" id="hdVehicle" maxlength="60" placeholder="e.g. Terra · ABC 1234"></div>
+      </div>
+      <div class="form-row"><label for="hdSubject">Subject</label><input type="text" id="hdSubject" maxlength="120" required placeholder="Briefly, what do you need help with?"></div>
+      <div class="form-row"><label for="hdMessage">Details</label><textarea id="hdMessage" maxlength="2000" required placeholder="Tell us more so we can help faster..."></textarea></div>
+      <div class="hp-field" aria-hidden="true"><label for="hdCompany">Company</label><input type="text" id="hdCompany" name="company" tabindex="-1" autocomplete="off"></div>
+      <button class="btn-primary" style="width:100%;text-align:center;border:none;cursor:pointer;" id="hdSubmit">Submit Ticket</button>
+      <div class="form-msg" id="hdMsg" role="status" aria-live="polite"></div>
     </div>
   </div>
 </section>
@@ -839,6 +928,7 @@
         <li><a href="#showroom">Virtual Showroom</a></li>
         <li><a href="#contact" data-tab="inquiry">Vehicle Inquiry</a></li>
         <li><a href="#contact" data-tab="booking">Book a Service</a></li>
+        <li><a href="#helpdesk">Customer Helpdesk</a></li>
         <li><a href="#awards">Awards</a></li>
         <!-- CAREERS (hidden for now): <li><a href="#careers">Careers</a></li> -->
       </ul>

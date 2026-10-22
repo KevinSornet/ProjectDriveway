@@ -69,16 +69,19 @@ function checkSubmission(prefix, fields) {
 }
 
 async function send(payload, btn, label, msgId, okText, resetIds) {
+  let ok = false;
   btn.disabled = true; btn.textContent = 'Sending...'; btn.style.opacity = '0.7';
   try {
     await fetch(SHEETS_URL, { method: 'POST', mode: 'no-cors', credentials: 'omit', referrerPolicy: 'no-referrer', headers: {'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload) });
     markSubmitted();
     showMsg(msgId, 'ok', okText);
     resetIds.forEach(id => document.getElementById(id).value = '');
+    ok = true;
   } catch(e) {
     showMsg(msgId, 'err', 'Something went wrong. Please try again or call us directly.');
   }
   btn.disabled = false; btn.textContent = label; btn.style.opacity = '1';
+  return ok;
 }
 
 // ── SUBMIT INQUIRY ──
@@ -112,15 +115,73 @@ document.getElementById('svcSubmit').addEventListener('click', e => {
   let err = checkSubmission('svc', fields);
   if (!err && !isAllowedOption(get('svcBranch'))) err = 'Please select a branch.';
   if (!err && (!/^\d{4}-\d{2}-\d{2}$/.test(date) || date < new Date().toISOString().slice(0, 10))) err = 'Please choose a preferred date from today onward.';
+  if (!err && !clean(get('svcModel').value, 60)) err = 'Please enter your Nissan model.';
+  if (!err && !document.querySelector('.svc-chip.selected')) err = 'Please select at least one service type.';
   if (err === 'bot') return showMsg('svcMsg', 'ok', '✓ Booking request received! A service advisor will confirm your slot within 24 hours.');
   if (err) return showMsg('svcMsg', 'err', err);
-  const serviceType = [...document.querySelectorAll('.svc-chip.selected')].map(c => c.textContent.trim()).join(', ') || 'Not specified';
+  const serviceType = [...document.querySelectorAll('.svc-chip.selected')].map(c => c.textContent.trim()).join(', ');
   send({ type:'booking', ...fields, branch: get('svcBranch').value, date, model: clean(get('svcModel').value, 60), serviceType, notes: clean(get('svcNotes').value, 1000) },
     e.currentTarget, 'Confirm Booking Request', 'svcMsg', '✓ Booking request received! A service advisor will confirm your slot within 24 hours.',
     ['svcFirstName','svcLastName','svcMobile','svcEmail','svcBranch','svcDate','svcModel','svcNotes']);
   document.querySelectorAll('.svc-chip.selected').forEach(c => c.classList.remove('selected'));
 });
 document.getElementById('svcDate').min = new Date().toISOString().slice(0, 10);
+
+// ── HELPDESK ──
+// Topic tiles pre-select the category in the ticket form
+document.querySelectorAll('.hd-topic').forEach(tile => tile.addEventListener('click', () => {
+  document.querySelectorAll('.hd-topic').forEach(t => t.classList.toggle('selected', t === tile));
+  document.getElementById('hdCategory').value = tile.dataset.category;
+  document.getElementById('hdSubject').focus();
+}));
+document.getElementById('hdCategory').addEventListener('change', e => {
+  document.querySelectorAll('.hd-topic').forEach(t => t.classList.toggle('selected', t.dataset.category === e.target.value));
+});
+
+// Ticket numbers look like SVC-261022-7K4Q (date + 4 random characters)
+function newTicketId() {
+  const d = new Date();
+  const date = String(d.getFullYear()).slice(2) + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const rand = [...crypto.getRandomValues(new Uint8Array(4))].map(n => chars[n % chars.length]).join('');
+  return `SVC-${date}-${rand}`;
+}
+
+function showTicket(ticketId) {
+  const el = document.getElementById('hdMsg');
+  showMsg('hdMsg', 'ok', '');
+  const strong = document.createElement('span');
+  strong.className = 'hd-ticket';
+  strong.textContent = ticketId;
+  el.replaceChildren('✓ Ticket submitted! Your ticket number is', strong, 'Please keep it for reference. Our team will get back to you within 1 business day.');
+}
+
+document.getElementById('hdSubmit').addEventListener('click', async e => {
+  const get = id => document.getElementById(id);
+  const fields = {
+    firstName: clean(get('hdFirstName').value, 50),
+    lastName:  clean(get('hdLastName').value, 50),
+    mobile:    clean(get('hdMobile').value, 20),
+    email:     clean(get('hdEmail').value, 100),
+  };
+  const subject = clean(get('hdSubject').value, 120);
+  const message = clean(get('hdMessage').value, 2000);
+  let err = checkSubmission('hd', fields);
+  if (!err && (!isAllowedOption(get('hdCategory')) || !isAllowedOption(get('hdBranch')))) err = 'Please choose a topic and a branch.';
+  if (!err && !isAllowedOption(get('hdContactPref'))) err = 'Please choose how you would like us to contact you.';
+  if (!err && (!subject || !message)) err = 'Please add a subject and some details about your concern.';
+  const ticketId = newTicketId();
+  if (err === 'bot') return showTicket(ticketId);
+  if (err) return showMsg('hdMsg', 'err', err);
+  const btn = e.currentTarget;
+  const sent = await send({ type:'helpdesk', ticketId, category: get('hdCategory').value, branch: get('hdBranch').value, ...fields,
+      contactPref: get('hdContactPref').value, vehicle: clean(get('hdVehicle').value, 60), subject, message },
+    btn, 'Submit Ticket', 'hdMsg', '', ['hdFirstName','hdLastName','hdMobile','hdEmail','hdVehicle','hdSubject','hdMessage','hdCategory','hdBranch','hdContactPref']);
+  if (sent) {
+    showTicket(ticketId);
+    document.querySelectorAll('.hd-topic.selected').forEach(t => t.classList.remove('selected'));
+  }
+});
 
 // ── SHOWROOM DATA ──
 const MODELS = {

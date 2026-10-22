@@ -5,11 +5,13 @@
  * The website's own checks run in the visitor's browser and can be bypassed by
  * anyone who posts to the script URL directly, so the same checks are repeated here.
  *
- * Setup: open the existing Apps Script project, merge this logic into its doPost,
- * keep your current sheet names/columns, then Deploy > Manage deployments > Edit > New version.
+ * Spreadsheet: "SVC Website" with tabs Inquiries, Service and Helpdesk.
+ * Setup: open the spreadsheet > Extensions > Apps Script, replace the code with this file,
+ * then Deploy > Manage deployments > Edit (pencil) > Version: New version > Deploy.
+ * Editing the existing deployment keeps the same URL, so the website needs no change.
  */
 
-const SHEET_NAMES = { inquiry: 'Inquiries', booking: 'Bookings' };
+const SHEET_NAMES = { inquiry: 'Inquiries', booking: 'Service', helpdesk: 'Helpdesk' };
 const MAX_PER_MINUTE = 20;   // global cap across all visitors (Apps Script cannot see IPs)
 
 const ALLOWED = {
@@ -17,6 +19,9 @@ const ALLOWED = {
             'Nissan Terra', 'Nissan Navara', 'Nissan Navara Pro PHEV', 'Nissan Urvan', 'Nissan Patrol', 'Nissan Z',
             'Open to Suggestions'],
   branch: ['Nissan Alabang', 'Nissan Sucat', 'Nissan Dasmariñas', 'Nissan Carmona', 'Nissan Calamba', 'Nissan Sta. Rosa'],
+  category: ['Sales & Vehicle Inquiries', 'Service & Repairs', 'Parts & Accessories', 'Warranty', 'Financing & Insurance',
+             'Feedback & Complaints', 'Other'],
+  contactPref: ['Call', 'SMS', 'Email', 'Viber'],
 };
 
 function doPost(e) {
@@ -46,8 +51,21 @@ function doPost(e) {
         d.vehicle, d.dealership, clean(d.message, 1000)]);
     } else if (d.type === 'booking') {
       if (ALLOWED.branch.indexOf(d.branch) < 0 || !/^\d{4}-\d{2}-\d{2}$/.test(String(d.date))) return reply('rejected');
+      const model = clean(d.model, 60), serviceType = clean(d.serviceType, 300);
+      if (!model || !serviceType) return reply('rejected');
       ss.getSheetByName(SHEET_NAMES.booking).appendRow([new Date(), firstName, lastName, mobile, email,
-        d.branch, d.date, clean(d.model, 60), clean(d.serviceType, 300), clean(d.notes, 1000)]);
+        d.branch, d.date, model, serviceType, clean(d.notes, 1000)]);
+    } else if (d.type === 'helpdesk') {
+      if (ALLOWED.category.indexOf(d.category) < 0 || ALLOWED.branch.indexOf(d.branch) < 0) return reply('rejected');
+      if (!/^SVC-\d{6}-[A-Z0-9]{4}$/.test(String(d.ticketId))) return reply('rejected');
+      const subject = clean(d.subject, 120), message = clean(d.message, 2000);
+      if (!subject || !message) return reply('rejected');
+      if (ALLOWED.contactPref.indexOf(d.contactPref) < 0) return reply('rejected');
+      const contactPref = d.contactPref;
+      // Columns: Timestamp, Ticket ID, Category, Branch, First Name, Last Name, Mobile, Email,
+      //          Preferred Contact, Vehicle / Plate No., Subject, Message, Status, Assigned To, Internal Notes
+      ss.getSheetByName(SHEET_NAMES.helpdesk).appendRow([new Date(), d.ticketId, d.category, d.branch, firstName, lastName,
+        mobile, email, contactPref, clean(d.vehicle, 60), subject, message, 'New', '', '']);
     } else {
       return reply('rejected');
     }
