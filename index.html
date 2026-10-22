@@ -358,6 +358,9 @@
   .form-row select option { background: white; color: var(--text); }
   .form-row textarea { resize: vertical; min-height: 90px; }
   .form-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .consent-row { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 18px; font-size: 13px; line-height: 1.5; color: var(--text-muted); cursor: pointer; }
+  .consent-row input { flex-shrink: 0; width: 18px; height: 18px; margin-top: 1px; accent-color: var(--red); cursor: pointer; }
+  .consent-row a { color: var(--red); font-weight: 600; }
   .phone-field { display: flex; align-items: stretch; }
   .phone-prefix { display: flex; align-items: center; padding: 0 12px; background: #e2e2e2; border: 1px solid rgba(0,0,0,0.1); border-right: none; font-size: 15px; font-weight: 600; color: var(--text); }
   .form-row .phone-field .phone-input { flex: 1; min-width: 0; }
@@ -780,6 +783,7 @@
         </div>
         <div class="form-row"><label>Message (Optional)</label><textarea id="inqMessage" maxlength="1000" placeholder="Any requirements, color preferences, or questions?"></textarea></div>
         <div class="hp-field" aria-hidden="true"><label for="inqCompany">Company</label><input type="text" id="inqCompany" name="company" tabindex="-1" autocomplete="off"></div>
+        <label class="consent-row"><input type="checkbox" id="inqConsent" required> <span>I have read the <a href="privacy.html" target="_blank" rel="noopener">Privacy Notice</a> and agree to Synergyauto Ventures Corporation processing my personal data to respond to this vehicle inquiry.</span></label>
         <button class="btn-primary" style="width:100%;text-align:center;border:none;cursor:pointer;" id="inqSubmit">Submit Inquiry</button>
         <div class="form-msg" id="inqMsg"></div>
       </div>
@@ -835,6 +839,7 @@
         </div>
         <div class="form-row"><label>Additional Notes (Optional)</label><textarea id="svcNotes" maxlength="1000" placeholder="Any specific issues, noises, or concerns with your vehicle..."></textarea></div>
         <div class="hp-field" aria-hidden="true"><label for="svcCompany">Company</label><input type="text" id="svcCompany" name="company" tabindex="-1" autocomplete="off"></div>
+        <label class="consent-row"><input type="checkbox" id="svcConsent" required> <span>I have read the <a href="privacy.html" target="_blank" rel="noopener">Privacy Notice</a> and agree to Synergyauto Ventures Corporation processing my personal data to schedule and confirm this service booking.</span></label>
         <button class="btn-primary" style="width:100%;text-align:center;border:none;cursor:pointer;" id="svcSubmit">Confirm Booking Request</button>
         <div class="form-msg" id="svcMsg"></div>
       </div>
@@ -904,7 +909,8 @@
       <div class="form-row"><label for="hdSubject">Subject</label><input type="text" id="hdSubject" maxlength="120" required placeholder="Briefly, what do you need help with?"></div>
       <div class="form-row"><label for="hdMessage">Details</label><textarea id="hdMessage" maxlength="2000" required placeholder="Tell us more so we can help faster..."></textarea></div>
       <div class="hp-field" aria-hidden="true"><label for="hdCompany">Company</label><input type="text" id="hdCompany" name="company" tabindex="-1" autocomplete="off"></div>
-      <button class="btn-primary" style="width:100%;text-align:center;border:none;cursor:pointer;" id="hdSubmit">Submit Ticket</button>
+      <label class="consent-row"><input type="checkbox" id="hdConsent" required> <span>I have read the <a href="privacy.html" target="_blank" rel="noopener">Privacy Notice</a> and agree to Synergyauto Ventures Corporation processing my personal data to handle this support ticket.</span></label>
+        <button class="btn-primary" style="width:100%;text-align:center;border:none;cursor:pointer;" id="hdSubmit">Submit Ticket</button>
       <div class="form-msg" id="hdMsg" role="status" aria-live="polite"></div>
     </div>
   </div>
@@ -965,7 +971,7 @@
       <ul>
         <li><a href="#">About Us</a></li>
         <li><a href="#contact">Contact Us</a></li>
-        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="privacy.html">Privacy Notice</a></li>
       </ul>
     </div>
   </div>

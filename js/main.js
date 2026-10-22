@@ -70,6 +70,9 @@ function markSubmitted() {
   try { sessionStorage.setItem('svcLastSubmit', String(Date.now())); } catch (e) {}
 }
 
+// Version of privacy.html the customer agreed to; recorded with every submission
+const PRIVACY_NOTICE_VERSION = '2026-10-22';
+
 // Shared checks; returns an error message or '' when the submission may proceed
 function checkSubmission(prefix, fields) {
   if (document.getElementById(prefix + 'Company').value) return 'bot';
@@ -78,6 +81,7 @@ function checkSubmission(prefix, fields) {
   if (!fields.firstName || !fields.lastName || fields.mobile === '+63' || !fields.email) return 'Please fill in all required fields.';
   if (!EMAIL_RE.test(fields.email)) return 'Please enter a valid email address.';
   if (!PH_MOBILE_RE.test(fields.mobile.replace(/[\s()-]/g, ''))) return 'Please enter a valid mobile number after +63 (e.g. 917 123 4567).';
+  if (!document.getElementById(prefix + 'Consent').checked) return 'Please tick the box to agree to our Privacy Notice so we can process your request.';
   return '';
 }
 
@@ -93,12 +97,13 @@ async function send(payload, btn, label, msgId, okText, resetIds) {
   btn.disabled = true; btn.textContent = 'Sending...'; btn.style.opacity = '0.7';
   try {
     // The Apps Script reply is readable cross-origin, so only report success when the row was actually saved
-    const res = await fetch(SHEETS_URL, { method: 'POST', credentials: 'omit', referrerPolicy: 'no-referrer', headers: {'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload) });
+    const res = await fetch(SHEETS_URL, { method: 'POST', credentials: 'omit', referrerPolicy: 'no-referrer', headers: {'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify({ ...payload, consent: true, noticeVersion: PRIVACY_NOTICE_VERSION }) });
     const status = (await res.json()).status;
     if (status !== 'ok') throw new Error(status || 'error');
     markSubmitted();
     showMsg(msgId, 'ok', okText);
     resetIds.forEach(id => document.getElementById(id).value = '');
+    btn.closest('.contact-form-wrap').querySelectorAll('.consent-row input').forEach(c => c.checked = false);
     ok = true;
   } catch(e) {
     showMsg(msgId, 'err', SEND_ERRORS[e.message] || 'Sorry, we could not send your request. Please try again, or call your preferred branch directly.');

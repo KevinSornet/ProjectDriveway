@@ -18,6 +18,7 @@
 const SPREADSHEET_ID = '1R8tp3zjl_c-XSsvrQgu-yq9mf4c7MDqv0MLPsN-V1NQ';
 const SHEET_NAMES = { inquiry: 'Inquiries', booking: 'Service', helpdesk: 'Helpdesk' };
 const SUPPORT_EMAIL = 'nissansvc.customerexperience@gmail.com';   // receives a notification for every new helpdesk ticket
+const RETENTION_YEARS = 2;   // matches section 5 of privacy.html
 const MAX_PER_MINUTE = 20;   // global cap across all visitors (Apps Script cannot see IPs)
 
 const ALLOWED = {
@@ -44,6 +45,10 @@ function doPost(e) {
     const d = JSON.parse(e.postData.contents);
     if (d.company) return reply('ok');   // honeypot filled: pretend success, store nothing
 
+    // Data Privacy Act: only store data from people who ticked the Privacy Notice consent box
+    if (d.consent !== true || !/^\d{4}-\d{2}-\d{2}$/.test(String(d.noticeVersion))) return reply('rejected');
+    const consentRecord = 'Yes (Privacy Notice v' + d.noticeVersion + ')';
+
     const firstName = clean(d.firstName, 50), lastName = clean(d.lastName, 50);
     const email = clean(d.email, 100);
     if (!firstName || !lastName) return reply('rejected');
@@ -58,13 +63,13 @@ function doPost(e) {
     if (d.type === 'inquiry') {
       if (ALLOWED.vehicle.indexOf(d.vehicle) < 0 || ALLOWED.branch.indexOf(d.dealership) < 0) return reply('rejected');
       ss.getSheetByName(SHEET_NAMES.inquiry).appendRow([new Date(), firstName, lastName, mobile, email,
-        d.vehicle, d.dealership, clean(d.message, 1000)]);
+        d.vehicle, d.dealership, clean(d.message, 1000), consentRecord]);
     } else if (d.type === 'booking') {
       if (ALLOWED.branch.indexOf(d.branch) < 0 || !/^\d{4}-\d{2}-\d{2}$/.test(String(d.date))) return reply('rejected');
       const model = clean(d.model, 60), serviceType = clean(d.serviceType, 300);
       if (!model || !serviceType) return reply('rejected');
       ss.getSheetByName(SHEET_NAMES.booking).appendRow([new Date(), firstName, lastName, mobile, email,
-        d.branch, d.date, model, serviceType, clean(d.notes, 1000)]);
+        d.branch, d.date, model, serviceType, clean(d.notes, 1000), consentRecord]);
     } else if (d.type === 'helpdesk') {
       if (ALLOWED.category.indexOf(d.category) < 0 || ALLOWED.branch.indexOf(d.branch) < 0) return reply('rejected');
       if (!/^SVC-\d{6}-[A-Z0-9]{4}$/.test(String(d.ticketId))) return reply('rejected');
@@ -73,9 +78,9 @@ function doPost(e) {
       if (ALLOWED.contactPref.indexOf(d.contactPref) < 0) return reply('rejected');
       const contactPref = d.contactPref;
       // Columns: Timestamp, Ticket ID, Category, Branch, First Name, Last Name, Mobile, Email,
-      //          Preferred Contact, Vehicle / Plate No., Subject, Message, Status, Assigned To, Internal Notes
+      //          Preferred Contact, Vehicle / Plate No., Subject, Message, Status, Assigned To, Internal Notes, Privacy Consent
       ss.getSheetByName(SHEET_NAMES.helpdesk).appendRow([new Date(), d.ticketId, d.category, d.branch, firstName, lastName,
-        mobile, email, contactPref, clean(d.vehicle, 60), subject, message, 'New', '', '']);
+        mobile, email, contactPref, clean(d.vehicle, 60), subject, message, 'New', '', '', consentRecord]);
       notifySupport({ ticketId: d.ticketId, category: d.category, branch: d.branch, name: firstName + ' ' + lastName,
         mobile: mobileRaw, email: email, contactPref: contactPref, vehicle: clean(d.vehicle, 60), subject: subject, message: message });
     } else {
@@ -146,4 +151,24 @@ function testSetup() {
   MailApp.sendEmail(SUPPORT_EMAIL, 'SVC website helpdesk is connected',
     'Ticket notifications from the website helpdesk will arrive at this address.');
   console.log('Test email sent to ' + SUPPORT_EMAIL + ' (emails left today: ' + MailApp.getRemainingDailyQuota() + ')');
+}
+
+// Data retention: deletes rows older than RETENTION_YEARS from all three tabs (column A is the timestamp).
+// Run it manually, or schedule it: Apps Script > Triggers > Add trigger > purgeExpiredRecords > Time-driven > Month timer.
+// Keep rows longer when needed for an open warranty or legal matter by copying them elsewhere first.
+function purgeExpiredRecords() {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const cutoff = new Date();
+  cutoff.setFullYear(cutoff.getFullYear() - RETENTION_YEARS);
+  Object.keys(SHEET_NAMES).forEach(function (key) {
+    const sheet = ss.getSheetByName(SHEET_NAMES[key]);
+    if (!sheet || sheet.getLastRow() < 2) return;
+    const stamps = sheet.getRange(2, 1, sheet.getLastRow() - 1, 1).getValues();
+    let removed = 0;
+    for (let i = stamps.length - 1; i >= 0; i--) {   // bottom-up so row numbers stay valid
+      const t = stamps[i][0];
+      if (t instanceof Date && t < cutoff) { sheet.deleteRow(i + 2); removed++; }
+    }
+    console.log(SHEET_NAMES[key] + ': removed ' + removed + ' record(s) older than ' + RETENTION_YEARS + ' years');
+  });
 }
