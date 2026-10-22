@@ -7,7 +7,8 @@
  *
  * Spreadsheet: "SVC Website" with tabs Inquiries, Service and Helpdesk (opened by SPREADSHEET_ID below).
  * Replies: "ok" = saved, "rejected" = failed validation, "error" = script problem (see Executions log).
- * After pasting, run testSetup once from the editor to grant access and confirm the tabs are found.
+ * After pasting, run testSetup once from the editor: it grants sheet + email access, checks the tabs,
+ * and sends a test email to SUPPORT_EMAIL. New helpdesk tickets are emailed there automatically.
  * Setup: open the spreadsheet > Extensions > Apps Script, replace the code with this file,
  * then Deploy > Manage deployments > Edit (pencil) > Version: New version > Deploy.
  * Editing the existing deployment keeps the same URL, so the website needs no change.
@@ -16,6 +17,7 @@
 // Open the "SVC Website" spreadsheet by ID so this works whether the script is bound to the sheet or standalone
 const SPREADSHEET_ID = '1R8tp3zjl_c-XSsvrQgu-yq9mf4c7MDqv0MLPsN-V1NQ';
 const SHEET_NAMES = { inquiry: 'Inquiries', booking: 'Service', helpdesk: 'Helpdesk' };
+const SUPPORT_EMAIL = 'nissansvc.customerexperience@gmail.com';   // receives a notification for every new helpdesk ticket
 const MAX_PER_MINUTE = 20;   // global cap across all visitors (Apps Script cannot see IPs)
 
 const ALLOWED = {
@@ -74,6 +76,8 @@ function doPost(e) {
       //          Preferred Contact, Vehicle / Plate No., Subject, Message, Status, Assigned To, Internal Notes
       ss.getSheetByName(SHEET_NAMES.helpdesk).appendRow([new Date(), d.ticketId, d.category, d.branch, firstName, lastName,
         mobile, email, contactPref, clean(d.vehicle, 60), subject, message, 'New', '', '']);
+      notifySupport({ ticketId: d.ticketId, category: d.category, branch: d.branch, name: firstName + ' ' + lastName,
+        mobile: mobileRaw, email: email, contactPref: contactPref, vehicle: clean(d.vehicle, 60), subject: subject, message: message });
     } else {
       return reply('rejected');
     }
@@ -83,6 +87,39 @@ function doPost(e) {
     return reply('error');
   } finally {
     lock.releaseLock();
+  }
+}
+
+// Email the Customer Experience team about a new ticket. Replying to the email goes straight to the customer.
+// A failed email never blocks the ticket: it is already saved in the sheet.
+function notifySupport(t) {
+  const plain = function (v) { return String(v).replace(/^'/, ''); };   // drop the Sheets text-escape apostrophe
+  try {
+    MailApp.sendEmail({
+      to: SUPPORT_EMAIL,
+      replyTo: plain(t.email),
+      subject: '[' + t.ticketId + '] ' + t.category + ' · ' + t.branch + ' — ' + plain(t.subject),
+      body: [
+        'New helpdesk ticket from the website',
+        '',
+        'Ticket:            ' + t.ticketId,
+        'Topic:             ' + t.category,
+        'Branch:            ' + t.branch,
+        'Customer:          ' + plain(t.name),
+        'Mobile:            ' + t.mobile,
+        'Email:             ' + plain(t.email),
+        'Preferred contact: ' + t.contactPref,
+        'Vehicle / Plate:   ' + (plain(t.vehicle) || '—'),
+        '',
+        'Subject: ' + plain(t.subject),
+        '',
+        plain(t.message),
+        '',
+        'Update the status in the Helpdesk tab: https://docs.google.com/spreadsheets/d/' + SPREADSHEET_ID + '/edit',
+      ].join('\n'),
+    });
+  } catch (err) {
+    console.error('Ticket ' + t.ticketId + ' saved, but the notification email failed: ' + err);
   }
 }
 
@@ -105,4 +142,8 @@ function testSetup() {
     const sheet = ss.getSheetByName(SHEET_NAMES[key]);
     console.log(SHEET_NAMES[key] + ': ' + (sheet ? 'found' : 'MISSING'));
   });
+  // Also grants permission to send email and confirms the notification address receives mail
+  MailApp.sendEmail(SUPPORT_EMAIL, 'SVC website helpdesk is connected',
+    'Ticket notifications from the website helpdesk will arrive at this address.');
+  console.log('Test email sent to ' + SUPPORT_EMAIL + ' (emails left today: ' + MailApp.getRemainingDailyQuota() + ')');
 }

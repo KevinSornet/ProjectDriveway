@@ -170,6 +170,8 @@ function newTicketId() {
   return `SVC-${date}-${rand}`;
 }
 
+const SUPPORT_EMAIL = 'nissansvc.customerexperience@gmail.com';
+
 // Branch hotlines shown on the helpdesk confirmation
 const BRANCH_PHONES = {
   'Nissan Alabang': ['09992219082', '09992219422'],
@@ -202,6 +204,13 @@ function showTicket(ticketId, branch) {
     numbers.forEach((n, i) => { if (i) contact.append(' / '); contact.append(phoneLink(n)); });
     el.append(contact);
   }
+  const mail = document.createElement('a');
+  mail.href = 'mailto:' + SUPPORT_EMAIL + '?subject=' + encodeURIComponent('Ticket ' + ticketId);
+  mail.textContent = SUPPORT_EMAIL;
+  const emailLine = document.createElement('span');
+  emailLine.className = 'hd-contact';
+  emailLine.append('Or email us at ', mail, ' with your ticket number in the subject.');
+  el.append(emailLine);
 }
 
 document.getElementById('hdSubmit').addEventListener('click', async e => {

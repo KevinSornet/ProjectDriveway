@@ -385,6 +385,9 @@
   .hd-steps li { counter-increment: hd; display: flex; gap: 14px; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.6); }
   .hd-steps li::before { content: counter(hd); flex-shrink: 0; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; background: var(--red); color: white; font-weight: 700; font-size: 12px; }
   .hd-steps strong { color: white; font-weight: 600; }
+  .hd-email { margin-top: 28px; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.6); }
+  .hd-email a { color: var(--yellow); font-weight: 600; text-decoration: none; word-break: break-all; }
+  .hd-email a:hover { text-decoration: underline; }
   #helpdesk .contact-form-wrap { color: var(--text); }
   .hd-ticket { display: block; font-size: 22px; font-weight: 700; letter-spacing: 1px; margin: 6px 0 4px; color: var(--text); }
   .svc-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
@@ -860,6 +863,7 @@
         <li><span><strong>We route it</strong> to the right team at your chosen branch.</span></li>
         <li><span><strong>We get back to you</strong> within 1 business day, by your preferred contact method.</span></li>
       </ol>
+      <p class="hd-email">Prefer email? Write to our Customer Experience team at <a href="mailto:nissansvc.customerexperience@gmail.com">nissansvc.customerexperience@gmail.com</a></p>
     </div>
     <div class="contact-form-wrap">
       <div class="form-two-col">
