@@ -43,10 +43,14 @@ function doPost(e) {
     if (d.company) return reply('ok');   // honeypot filled: pretend success, store nothing
 
     const firstName = clean(d.firstName, 50), lastName = clean(d.lastName, 50);
-    const mobile = clean(d.mobile, 20), email = clean(d.email, 100);
+    const email = clean(d.email, 100);
     if (!firstName || !lastName) return reply('rejected');
     if (!/^[^\s@]{1,64}@[^\s@]{1,190}\.[a-z]{2,24}$/i.test(email)) return reply('rejected');
-    if (!/^(\+?63|0)9\d{9}$/.test(mobile.replace(/[\s()-]/g, ''))) return reply('rejected');
+    // Validate the raw number first: clean() adds a leading apostrophe to values starting with "+",
+    // which keeps "+63..." as text in Sheets but would make this check fail if it ran first.
+    const mobileRaw = String(d.mobile == null ? '' : d.mobile).replace(/[\s()-]/g, '');
+    if (!/^(\+?63|0)9\d{9}$/.test(mobileRaw)) return reply('rejected');
+    const mobile = clean(mobileRaw, 20);
 
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     if (d.type === 'inquiry') {
