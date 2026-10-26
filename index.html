@@ -197,6 +197,8 @@
 }
 </script>
 <link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -444,7 +446,7 @@
   .sv-image.active { opacity: 1; }
   .sv-photo { padding: 0; }
   .sv-photo img { width: 100%; height: 100%; object-fit: cover; }
-  .sv-cutout { width: 100%; aspect-ratio: 16 / 9; object-fit: contain; filter: drop-shadow(0 20px 60px rgba(200,16,46,0.3)); }
+  .sv-cutout { width: 100%; aspect-ratio: 16 / 9; object-fit: contain; }   /* ground shadow is baked into the photo */
   .car-placeholder { width: 100%; max-width: 560px; display: flex; flex-direction: column; align-items: center; position: relative; }
   .car-svg { width: 100%; filter: drop-shadow(0 20px 60px rgba(200,16,46,0.25)); transition: filter 0.4s; }
   .car-svg:hover { filter: drop-shadow(0 24px 80px rgba(200,16,46,0.4)); }
