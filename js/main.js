@@ -547,7 +547,7 @@ function buildCarSVG(type, colorHex) {
 }
 
 
-function renderShowroom() {
+function renderShowroom(withViewer = true) {
   const m = MODELS[currentModel];
   const hasInterior = !!m.interiorPhoto;
   document.querySelector('.sv-view-toggle').style.display = hasInterior ? '' : 'none';
@@ -578,7 +578,7 @@ function renderShowroom() {
   ).join('');
   document.getElementById('svFeatures').innerHTML = m.features.map(f => `<li>${f}</li>`).join('');
 
-  renderViewer();
+  if (withViewer) renderViewer();
 }
 
 function renderViewer() {
@@ -675,7 +675,7 @@ function lockShowroomHeight() {
   let tallest = 0;
   for (const key of MODEL_ORDER) {
     currentModel = key; currentView = 'exterior';
-    renderShowroom();
+    renderShowroom(false);   // panel only: measuring must not download every model's photo
     tallest = Math.max(tallest, panel.offsetHeight);
   }
   [currentModel, currentView, currentImageIdx, currentColorIdx] = saved;

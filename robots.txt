@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /apps-script/
+
+Sitemap: https://nissansvc.com/sitemap.xml
