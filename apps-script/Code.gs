@@ -18,6 +18,17 @@
 const SPREADSHEET_ID = '1R8tp3zjl_c-XSsvrQgu-yq9mf4c7MDqv0MLPsN-V1NQ';
 const SHEET_NAMES = { inquiry: 'Inquiries', booking: 'Service', helpdesk: 'Helpdesk' };
 const SUPPORT_EMAIL = 'nissansvc.customerexperience@gmail.com';   // receives a notification for every new helpdesk ticket
+const SALES_SERVICE_EMAIL = 'kevinsornet@synergyauto.com.ph';      // receives every Vehicle Inquiry and Book a Service submission
+
+// Book a Service requests are also sent to the service advisor of the branch the customer picked
+const BRANCH_SERVICE_EMAILS = {
+  'Nissan Alabang':    'nawserviceadvisor@gmail.com',
+  'Nissan Sucat':      'nissansucat.telemarketer.svc@gmail.com',
+  'Nissan Dasmariñas': 'ndmserviceadvisor@gmail.com',
+  'Nissan Carmona':    'ncctarasonadantesvc@gmail.com',
+  'Nissan Calamba':    'advisor.nissancalamba@gmail.com',
+  'Nissan Sta. Rosa':  'nslserviceadvisor02@gmail.com',
+};
 const RETENTION_YEARS = 2;   // matches section 5 of privacy.html
 const MAX_PER_MINUTE = 20;   // global cap across all visitors (Apps Script cannot see IPs)
 
@@ -64,12 +75,21 @@ function doPost(e) {
       if (ALLOWED.vehicle.indexOf(d.vehicle) < 0 || ALLOWED.branch.indexOf(d.dealership) < 0) return reply('rejected');
       ss.getSheetByName(SHEET_NAMES.inquiry).appendRow([new Date(), firstName, lastName, mobile, email,
         d.vehicle, d.dealership, clean(d.message, 1000), consentRecord]);
+      notifySalesService('New vehicle inquiry · ' + d.vehicle + ' · ' + d.dealership + ' — ' + firstName + ' ' + lastName, email, [
+        ['Customer', firstName + ' ' + lastName], ['Mobile', mobileRaw], ['Email', email],
+        ['Vehicle of interest', d.vehicle], ['Preferred dealership', d.dealership], ['Message', clean(d.message, 1000) || '—'],
+      ], SHEET_NAMES.inquiry);
     } else if (d.type === 'booking') {
       if (ALLOWED.branch.indexOf(d.branch) < 0 || !/^\d{4}-\d{2}-\d{2}$/.test(String(d.date))) return reply('rejected');
       const model = clean(d.model, 60), serviceType = clean(d.serviceType, 300);
       if (!model || !serviceType) return reply('rejected');
       ss.getSheetByName(SHEET_NAMES.booking).appendRow([new Date(), firstName, lastName, mobile, email,
         d.branch, d.date, model, serviceType, clean(d.notes, 1000), consentRecord]);
+      notifySalesService('New service booking · ' + d.branch + ' · ' + d.date + ' — ' + firstName + ' ' + lastName, email, [
+        ['Customer', firstName + ' ' + lastName], ['Mobile', mobileRaw], ['Email', email],
+        ['Branch', d.branch], ['Preferred date', d.date], ['Nissan model', model],
+        ['Service type', serviceType], ['Additional notes', clean(d.notes, 1000) || '—'],
+      ], SHEET_NAMES.booking, BRANCH_SERVICE_EMAILS[d.branch]);
     } else if (d.type === 'helpdesk') {
       if (ALLOWED.category.indexOf(d.category) < 0 || ALLOWED.branch.indexOf(d.branch) < 0) return reply('rejected');
       if (!/^SVC-\d{6}-[A-Z0-9]{4}$/.test(String(d.ticketId))) return reply('rejected');
@@ -128,6 +148,25 @@ function notifySupport(t) {
   }
 }
 
+// Email a Vehicle Inquiry or Book a Service submission. Replying goes straight to the customer.
+// A failed email never blocks the submission: it is already saved in the sheet.
+function notifySalesService(subject, customerEmail, rows, tab, branchEmail) {
+  const plain = function (v) { return String(v).replace(/^'/, ''); };   // drop the Sheets text-escape apostrophe
+  try {
+    MailApp.sendEmail({
+      to: branchEmail ? branchEmail + ',' + SALES_SERVICE_EMAIL : SALES_SERVICE_EMAIL,
+      replyTo: plain(customerEmail),
+      subject: plain(subject),
+      body: ['New submission from the website', '']
+        .concat(rows.map(function (r) { return (r[0] + ':').padEnd(22) + plain(r[1]); }))
+        .concat(['', 'View all in the ' + tab + ' tab: https://docs.google.com/spreadsheets/d/' + SPREADSHEET_ID + '/edit'])
+        .join('\n'),
+    });
+  } catch (err) {
+    console.error('Submission saved, but the notification email failed: ' + err);
+  }
+}
+
 // Strip control characters, cap length, and stop Sheets from evaluating input as a formula
 function clean(value, max) {
   let v = String(value == null ? '' : value).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '').trim().slice(0, max);
@@ -150,7 +189,13 @@ function testSetup() {
   // Also grants permission to send email and confirms the notification address receives mail
   MailApp.sendEmail(SUPPORT_EMAIL, 'SVC website helpdesk is connected',
     'Ticket notifications from the website helpdesk will arrive at this address.');
-  console.log('Test email sent to ' + SUPPORT_EMAIL + ' (emails left today: ' + MailApp.getRemainingDailyQuota() + ')');
+  MailApp.sendEmail(SALES_SERVICE_EMAIL, 'SVC website forms are connected',
+    'Vehicle Inquiry and Book a Service submissions from the website will arrive at this address.');
+  Object.keys(BRANCH_SERVICE_EMAILS).forEach(function (branch) {
+    MailApp.sendEmail(BRANCH_SERVICE_EMAILS[branch], 'SVC website: ' + branch + ' service bookings connected',
+      'Book a Service requests from nissansvc.com where the customer chose ' + branch + ' will be emailed to this address.');
+  });
+  console.log('Test emails sent to ' + SUPPORT_EMAIL + ' and ' + SALES_SERVICE_EMAIL + ' (emails left today: ' + MailApp.getRemainingDailyQuota() + ')');
 }
 
 // Data retention: deletes rows older than RETENTION_YEARS from all three tabs (column A is the timestamp).
